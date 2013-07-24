@@ -7,9 +7,16 @@ def index():
 	return "cookie, hello, it is good to see you there, etc"
 
 @app.route('/welcome.html') # splash page
-def index():
+def welcome():
+	return "quoi!"
+	#returning user welcome page
 
+@app.route('/signup.html')
+def sign_up():
+	return "new user, put your information here"
 
+@app.route('/')
+def 
 
 
 

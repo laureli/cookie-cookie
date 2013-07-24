@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 
 
 # EXPLANATION OF DB call: 'postgresql://user:password@localhost/database
-# engine = create_engine('postgresql://mixer:mixer@localhost:5432/mixer', echo=False)
+# engine = create_engine('postgresql://mixerapp:mixerapp@localhost:5432/mixer')
 
 # session = scoped_session(sessionmaker(bind=engine,
 #                                 autocommit=False,
@@ -19,7 +19,7 @@ Base = declarative_base()
 ### Class declarations go here
 
 class User(Base):
-	__tablename__="Users"
+	__tablename__="users"
 	id = Column(Integer, primary_key=True)
 	username = Column(String(65))
 	email = Column(String(255)) # check the limit in standards for email
@@ -27,7 +27,7 @@ class User(Base):
 
 
 class Cookie(Base):
-	__tablename__="Cookies"
+	__tablename__="cookies"
 	id = Column(Integer, primary_key=True)
 	user_id = Column(Integer)
 	name = Column(String(100)) 

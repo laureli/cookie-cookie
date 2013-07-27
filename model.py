@@ -2,6 +2,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String, DateTime, Boolean
 from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 
 # EXPLANATION OF DB call: 'postgresql://user:password@localhost/database
@@ -10,9 +11,18 @@ from sqlalchemy import create_engine
 # session = scoped_session(sessionmaker(bind=engine,
 #                                 autocommit=False,
 #                                 autoflush=False))
+def connect():
+    global ENGINE
+    global Session
 
+    ENGINE = create_engine("postgresql://mixerapp:mixerapp@localhost:5432/mixer", echo=True)
+    Session = sessionmaker(bind=ENGINE)
 
-Base = declarative_base()
+    return Session()
+
+# session = Session()
+
+Base  =declarative_base()
 # Base.query = session.query_property()
 
 
@@ -24,7 +34,8 @@ class User(Base):
 	username = Column(String(65))
 	email = Column(String(255)) # check the limit in standards for email
 	password = Column(String(65))
-
+#	machine_id = Column(Integer)
+	# -> machine_id not currently in the database table
 
 class Cookie(Base):
 	__tablename__="cookies"

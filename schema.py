@@ -1,10 +1,12 @@
 
 class User(Base):
 	__tablename__="Users"
+	#id number is NOT AUTOINCREMENTING
 		id = Column(Integer, primary_key=True)
 		username = Column(String)
 		email = Column(String)
 		password = Column(String)
+	#machine_id not currently a part of the schema.
 		machine_id = Column(Integer)
 
 
@@ -14,7 +16,7 @@ class Cookie(Base):
 		name = Column(String) 
 		value = Column()
 		domain = Column()
-		path = Column()
+		path = Column(
 		expiration = Column()
 		size = Column()
 		http = Column()

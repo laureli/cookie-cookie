@@ -1,0 +1,21 @@
+/*
+let's make this extension happen!
+*/
+
+{
+	"name": "browser action swaps cookies when clicked",
+	"version": "0.0.1",
+	"background":{"scripts": ["backbone.js"]},
+	"permissions": [
+		/* 
+		well permissions are a good area to explore.
+		*/
+		"cookies","<all_urls>"
+	],
+	"browser_action":{
+		"name":"clicking initiates the cookie swap",
+		"default_popup":"popup.html"
+	},
+	"manifest_version":2
+
+}

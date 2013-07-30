@@ -36,7 +36,7 @@ function getCookie(){
         for(i=0;i<cookies.length;i++) {
             if (isInterestingCookie(cookies[i])) {
                 console.log('cookie number',i);
-                console.log((cookies[i]));
+                console.log(cookies[i]);
 
                 interestingCookies.push(cookies[i]);
             }

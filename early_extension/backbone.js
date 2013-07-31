@@ -1,27 +1,19 @@
-//############################# GET ALL OF THE COOKIES
-    //############################# with JSON-esque formatting
+// ##################################### GET ALL THE COOKIES into an array
 
-// function getAlltheCookies(){
-//      chrome.tabs.query({"status":"complete","windowId":chrome.windows.WINDOW_ID_CURRENT,
-//         "active":true}, 
-//         function(tab){
-//             console.log(JSON.stringify(tab));
-//             chrome.cookies.getAll({"url":tab[0].url},function (cookie){
-//                 console.log(cookie.length);
-//                 allCookieData = "";
-//     // next line gets all the cookies.  i turned it off.  am getting 15
-//                 // for(i=0;i<cookie.length;i++){
-//                 for(i=0;i<50;i++){ 
-//                     console.log("cookie is #"+i)
-//                     console.log(JSON.stringify(cookie[i]));
+function seeAllTheCookies (callback){
+    console.log("getting all the cookies, simply.")
+    chrome.cookies.getAll({}, callback);
+}
 
-//                     allCookieData = allCookieData + JSON.stringify(cookie[i]);
-//                 }
-//                 localStorage.currentgetAlltheCookies = allCookieData;
-//             });
-//         });
-//     }
-// window.onload=getAlltheCookies;
+seeAllTheCookies(function(cookieData){
+    console.log('number of cookies',cookieData.length)
+    var allCookieArray = [];
+    for (i=0; i<cookieData.length; i++) {
+        allCookieArray.push(cookieData[i]);
+    }
+    localStorage.allCookieArray = allCookieArray
+    console.log('array of cookie info is:',allCookieArray)
+});
 
 
 // // ######################## get() single cookie, the cookie is returned
@@ -81,24 +73,24 @@
 // });
 
 
-// // // ############################ get cookies from a specific URL - two funcs
-function getCookies(){
-    chrome.cookies.getAll({},function (cookies) {
-        console.log(cookies.length);
-        var interestingCookies = [];
-        for(i=0;i<cookies.length;i++) {
-            if (isInterestingCookie(cookies[i])) {
-                console.log('cookie number',i);
-                console.log(cookies[i]);
-                interestingCookies.push(cookies[i]);
-            }
-        }   
-        localStorage.interestingCookies = interestingCookies;
-    });
-}
-window.onload=getCookies;
+// // // // ############################ get cookies from a specific URL - two funcs
+// function getCookies(){
+//     chrome.cookies.getAll({},function (cookies) {
+//         console.log(cookies.length);
+//         var interestingCookies = [];
+//         for(i=0;i<cookies.length;i++) {
+//             if (isInterestingCookie(cookies[i])) {
+//                 console.log('cookie number',i);
+//                 console.log(cookies[i]);
+//                 interestingCookies.push(cookies[i]);
+//             }
+//         }   
+//         localStorage.interestingCookies = interestingCookies;
+//     });
+// }
+// window.onload=getCookies;
 
-    // this works with the above function to push 
+    // the code below - both chunks - work with the above function to push 
     //specified cookies to an array called interestingCookies
 
 // function isInterestingCookie(cookie) {
@@ -106,20 +98,12 @@ window.onload=getCookies;
 //     return cookie.domain == ".eventbrite.com";
 // }
 
-function isInterestingCookie(cookie) {
-    console.log('get a cookie with two parameters')
-    return cookie.domain == ".eventbrite.com" && 
-    cookie.name == 'ebtv';
-} 
+// function isInterestingCookie(cookie) {
+//     console.log('get a cookie with two parameters')
+//     return cookie.domain == ".eventbrite.com" && 
+//     cookie.name == 'ebtv';
+// }
 
 
 
-
-
-
-
-
-
-
-
-
+// // #####################################  TEST SPACE

@@ -26,23 +26,28 @@
         <a href="/"><img id="kitten" src="http://placekitten.com/g/700/400"></a>
 
 <!-- assuming that the form action goes outside of the JS -->
-        <!-- <form action="/view_cookies"> <!-- directs to view_cookies --> -->
-
+        <!-- <form action="/view_cookies"> -->
+        <!-- directs to view_cookies --> 
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script type=text/javascript>
+        // $SCRIPT_ROOT = '/';
               $(function() {
-                $('a#calculate').bind('click', function() {
-                  $.getJSON($SCRIPT_ROOT + '/view_cookies', {
-                    a: $('input[name="domain"]').val(),
-                  }, function(data) {
-                    $("#result").text(data.result);
-                  });
-                  return false;
+                $('a#getCookies').bind('click', function() {
+                    console.log('clicked');
+                    getCookies();
+
+                  // $.getJSON($SCRIPT_ROOT + '/view_cookies', {
+                  //   domain: $('input[name="domain"]').val(),
+                  // }, function(data) {
+                  //   $("#domain").text(data.domain);
+                  // });
+                  // return false;
                 });
               });
         </script>
 
+<!-- should the below go on show_cookies.html? -->
         <script type=text/javascript>
-
             function getCookies(){
                 chrome.cookies.getAll({},function (cookies) {
                     console.log(cookies.length);
@@ -57,12 +62,13 @@
                     localStorage.interestingCookies = interestingCookies;
                 });
             }
-            window.onload=getCookies;
+            // window.onload=getCookies;
 
             function isInterestingCookie(cookie) {
-                console.log('get cookies with one shared parameter')
-// insert the name of the domain below
-                return cookie.domain == ".eventbrite.com";
+                console.log('get cookies with one shared parameter');
+// insert the name of the domain + suffix below 
+// manage formatting
+                return cookie.domain == "." // + PUT THE DOMAIN HERE;
             }
 
         </script>

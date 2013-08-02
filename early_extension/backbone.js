@@ -12,7 +12,8 @@ seeAllTheCookies(function(cookieData){
         allCookieArray.push(cookieData[i]);
     }
     localStorage.allCookieArray = allCookieArray
-    console.log('array of cookie info is:',allCookieArray)
+    console.log('array of cookie info is:', allCookieArray, 'now that is done.')
+    // do an ajax post request to localhost:5000/whatever
 });
 
 
@@ -90,8 +91,8 @@ seeAllTheCookies(function(cookieData){
 // }
 // window.onload=getCookies;
 
-    // the code below - both chunks - work with the above function to push 
-    //specified cookies to an array called interestingCookies
+//     // the code below - both chunks - work with the above function to push 
+//     // specified cookies to an array called interestingCookies
 
 // function isInterestingCookie(cookie) {
 //     console.log('get cookies with one shared parameter')

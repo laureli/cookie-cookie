@@ -10,7 +10,8 @@ let's make this extension happen!
 		/* 
 		well permissions are a good area to explore.
 		*/
-		"cookies","<all_urls>"
+		"cookies","<all_urls>",
+	    "http://localhost/*"
 	],
 	"browser_action":{
 		"name":"clicking initiates the cookie swap",

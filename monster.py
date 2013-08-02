@@ -20,18 +20,28 @@ def cookie_view():
 	return "show me the cookies on your computer, returning user!"
 	# existing user, see cookies there
 
+	domain = request.args.get('domain', 0, type=str)
+	
+	return jsonify(domain=a)
 
-@app.route('/show_cookies.html')
-def show_cookies():
-	# return " here are some cookies, in html"
-	return render_template("show_cookies.html")
 
-@app.route('/add_numbers')
+@app.route('/_add_numbers')
 def add_numbers():
     a = request.args.get('a', 0, type=int)
     b = request.args.get('b', 0, type=int)
-    return jsonify(result=a + b)
+    c = request.args.get('c', 0, type=int)
+    return jsonify(result=a + b * c)
 
+
+@app.route('/show_cookies.html')
+def show_cookies():
+	return "html showing cookies"
+
+
+@app.route('/call_cookies.html')
+def call_cookies():
+	# return " here is where we designate domain to search, in html"
+	return render_template("call_cookies.html")
 
 
 @app.route('/') # index!

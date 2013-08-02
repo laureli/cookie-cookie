@@ -22,13 +22,14 @@
     </head>
 <body>
 	  <a href="/"><img id="kitten" src="http://placekitten.com/g/700/400"></a>
-
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type=text/javascript>
 	  $(function() {
 	    $('a#calculate').bind('click', function() {
-	      $.getJSON($SCRIPT_ROOT + '/_add_numbers', {
+	      $.getJSON('/_add_numbers', {
 	        a: $('input[name="a"]').val(),
-	        b: $('input[name="b"]').val()
+	        b: $('input[name="b"]').val(),
+            c: $('input[name="c"]').val()
 	      }, function(data) {
 	        $("#result").text(data.result);
 	      });
@@ -39,7 +40,8 @@
 	<h1>jQuery Example</h1>
 <p>
   <input type=text size=5 name=a> +
-  <input type=text size=5 name=b> =
+  <input type=text size=5 name=b> *
+  <input type=text size=5 name=c> =
   <span id=result>?</span>
 <p><a href=# id=calculate>calculate server side</a>
 

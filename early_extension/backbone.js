@@ -13,8 +13,23 @@ seeAllTheCookies(function(cookieData){
     }
     localStorage.allCookieArray = allCookieArray
     console.log('array of cookie info is:', allCookieArray, 'now that is done.')
-    // do an ajax post request to localhost:5000/whatever
+
+    $.ajax({
+        type: "POST",
+        url: 'http://localhost:5000/show_cookies',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            cookies: allCookieArray,
+            username: 'kyle'
+        }),
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            alert(response); 
+        }
+    })
 });
+
 
 
 // // ######################## get() single cookie, the cookie is returned

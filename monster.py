@@ -33,9 +33,13 @@ def add_numbers():
     return jsonify(result=a + b * c)
 
 
-@app.route('/show_cookies.html')
+@app.route('/show_cookies', methods=['GET', 'POST'])
 def show_cookies():
-	return "html showing cookies"
+	# resp = {"cookies": 'hi'}
+	content = request.get_json()
+	return jsonify(content)
+	# return "html showing cookies"
+
 
 
 @app.route('/call_cookies.html')

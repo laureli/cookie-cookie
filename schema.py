@@ -1,31 +1,23 @@
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine
+from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import DateTime
+from sqlalchemy.orm import sessionmaker, scoped_session
+
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship, backref
+
+
+engine = create_engine("postgresql://mixerapp:mixerapp@localhost:5432/mixer", echo=False)
+session = scoped_session(sessionmaker(bind=engine,
+                                autocommit=False,
+                                autoflush=False))
+
+Base = declarative_base()
+Base.query = session.query_property()
 
 class User(Base):
-	__tablename__="Users"
-	#id number is NOT AUTOINCREMENTING
-		id = Column(Integer, primary_key=True)
-		username = Column(String)
-		email = Column(String)
-		password = Column(String)
-	#machine_id not currently a part of the schema.
-		machine_id = Column(Integer)
-
-
-class Cookie(Base):
-	__tablename__="Cookies"
-		id = Column(Integer, primary_key=True)
-		name = Column(String) 
-		value = Column()
-		domain = Column()
-		path = Column(
-		expiration = Column()
-		size = Column()
-		http = Column()
-		secure = Column()
-
-################ below is the code inserted into the engine.
-
-class User(Base):
-	__tablename__="Users"
+	__tablename__="users"
 	id = Column(Integer, primary_key=True)
 	username = Column(String(65))
 	email = Column(String(255)) # check the limit in standards for email
@@ -33,7 +25,7 @@ class User(Base):
 
 
 class Cookie(Base):
-	__tablename__="Cookies"
+	__tablename__="cookies"
 	id = Column(Integer, primary_key=True)
 	user_id = Column(Integer)
 	name = Column(String(100)) 
@@ -45,3 +37,18 @@ class Cookie(Base):
 	http = Column(Boolean())
 	secure = Column(Boolean())
 
+
+	def set_cookie_from_browser(c): # class instantiated @ monster.py
+		# include validating if statements here
+		self.name = c['name'],
+		self.value = c['value'],
+        self.domain = c['domain'],
+        path = c['path'],
+        http = c['httpOnly'],
+        secure = c['secure']
+
+
+
+        # correct table; not dealing with two columns:
+        	# expiration = values[6],
+	        # size = values[0],

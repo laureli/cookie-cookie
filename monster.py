@@ -1,7 +1,10 @@
 from flask import Flask, render_template, request, redirect, jsonify
+import schema
+from schema import Cookie, User, session
+import json
 
 #configuration information
-DATABASE = '/tmp/flaskr.db' 
+DATABASE = '/tmp/mixerapp.db' 
 DEBUG = True
 SECRET_KEY = 'development key'
 USERNAM = 'admin' 
@@ -11,9 +14,7 @@ PASSWORD = 'default'
 #application
 app = Flask(__name__)
 app.config.from_object(__name__)
-app.config.from_envvar('WEBL_SETTINGS', silent=True)
 
-# what is up with multiline import statements?
 
 @app.route('/view_cookies')
 def cookie_view():
@@ -22,7 +23,31 @@ def cookie_view():
 
 	domain = request.args.get('domain', 0, type=str)
 	
-	return jsonify(domain=a)
+	return jsonify(domain)
+
+
+@app.route('/read_cookies', methods=['POST'])
+def read_cookies():
+	content = request.get_json()
+		# content is a dictionary!
+
+	for c in content['cookies']:
+		keys = c.keys()
+		values = c.values()
+
+		if keys[0] == 'domain':
+			keys[0] = 'domain'
+
+		if values[0] == 'www.google.com':
+			cookie_object = Cookie()
+			cookie_object.set_cookie_from_browser(c)
+		        session.add(cookie_object)
+			session.commit()
+
+			print keys
+			print values
+
+	return jsonify(content)
 
 
 @app.route('/_add_numbers')
@@ -33,16 +58,7 @@ def add_numbers():
     return jsonify(result=a + b * c)
 
 
-@app.route('/show_cookies', methods=['GET', 'POST'])
-def show_cookies():
-	# resp = {"cookies": 'hi'}
-	content = request.get_json()
-	return jsonify(content)
-	# return "html showing cookies"
-
-
-
-@app.route('/call_cookies.html')
+@app.route('/call_cookies')
 def call_cookies():
 	# return " here is where we designate domain to search, in html"
 	return render_template("call_cookies.html")
@@ -58,16 +74,16 @@ def index():
 # ################## practice for JSON
 	
 
-@app.route('/login.html')
+@app.route('/login')
 def login():
 	return "hello, login here in html"
 
-@app.route('/welcome.html') # splash page
+@app.route('/welcome') # splash page
 def welcome():
 	return "quoi, you return - we love you in html"
 	#returning user welcome page
 
-@app.route('/signup.html')
+@app.route('/signup')
 def sign_up():
 	return "new user, put your information here in html"
 	# new user sign up here

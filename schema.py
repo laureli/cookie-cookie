@@ -38,15 +38,15 @@ class Cookie(Base):
 	secure = Column(Boolean())
 
 
-	def set_cookie_from_browser(c): # class instantiated @ monster.py
+	def set_cookie_from_browser(self, c): # class instantiated @ monster.py
 		# include validating if statements here
-		self.name = c['name'],
-		self.value = c['value'],
-        self.domain = c['domain'],
-        path = c['path'],
-        http = c['httpOnly'],
-        secure = c['secure']
-
+		self.name = c['name']
+		self.value = c['value']
+		self.domain = c['domain']
+		self.path = c['path']
+		self.http = c['httpOnly']
+		self.secure = c['secure']
+  		print 'the domain is', c['domain']
 
 
         # correct table; not dealing with two columns:

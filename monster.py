@@ -35,8 +35,7 @@ def read_cookies():
 		keys = c.keys()
 		values = c.values()
 
-		if keys[0] == 'domain':
-			keys[0] = 'domain'
+		# print c['domain']
 
 		if values[0] == 'www.google.com':
 			cookie_object = Cookie()
@@ -44,8 +43,9 @@ def read_cookies():
 		        session.add(cookie_object)
 			session.commit()
 
-			print keys
-			print values
+		# 	print keys
+		# 	print values
+	
 
 	return jsonify(content)
 

@@ -29,13 +29,12 @@ def cookie_view():
 @app.route('/read_cookies', methods=['POST'])
 def read_cookies():
 	content = request.get_json()
-		# content is a dictionary!
+		# content is a DICTIONARY!
 
 	for c in content['cookies']:
 		keys = c.keys()
 		values = c.values()
-
-		# print c['domain']
+		# keys and values are LISTS
 
 		if values[0] == 'www.google.com':
 			cookie_object = Cookie()
@@ -43,19 +42,12 @@ def read_cookies():
 		        session.add(cookie_object)
 			session.commit()
 
-		# 	print keys
-		# 	print values
-	
-
 	return jsonify(content)
 
 
-@app.route('/_add_numbers')
-def add_numbers():
-    a = request.args.get('a', 0, type=int)
-    b = request.args.get('b', 0, type=int)
-    c = request.args.get('c', 0, type=int)
-    return jsonify(result=a + b * c)
+@app.route('/set_browser_cookie', method=['GET'])
+def set_browser_cookie():
+	return 'cookie stub'
 
 
 @app.route('/call_cookies')
@@ -91,6 +83,14 @@ def sign_up():
 
 
 
+
+
+@app.route('/_add_numbers')
+def add_numbers():
+    a = request.args.get('a', 0, type=int)
+    b = request.args.get('b', 0, type=int)
+    c = request.args.get('c', 0, type=int)
+    return jsonify(result=a + b * c)
 
 
 if __name__ == "__main__":

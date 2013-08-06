@@ -33,43 +33,12 @@ seeAllTheCookies(function(cookieData){
 // ######################## set single cookie to the browser
 
 
-function setCookietoBrowser(url, name, value) {
+function setCookietoBrowser(url, name, value, domain) {
     console.log("a cookie is going to get set to your browser")
     chrome.cookies.set({
         'url':url,
         'name':name,
-        'value': value
-    })
-}
-function doSomething() {
-
-
-    $.ajax({
-        type: "GET",
-        url: 'http://localhost:5000/set_browser_cookie',
-        contentType: 'application/json',
-        data: JSON.stringify({
-            cookie: 
-                // insert stubbed cookie information
-            username: 'lkm source'
-        }),
-        dataType:'json',
-        success: function (response) {
-            var cookies = response.cookies;
-            alert(cookies)
-            console.log(response, 'a cookie got set, yah');
-            alert(response)
-        }
-    })
-}
-
-/////////////////////////////////////////////
-
-function setCookietoBrowser(url, name, value) {
-    console.log("a cookie is going to get set to your browser")
-    chrome.cookies.set({
-        'url':url,
-        'name':name,
+        'domain': domain,
         'value': value
     })
 }
@@ -86,9 +55,10 @@ function sendCookie() {
             console.log(response, 'a cookie got set, yah');
             console.log(response)
 
-            setCookietoBrowser(url = cookies[0]['url'],
-                            name = cookies[0]['name'],
-                            value = cookies[0]['value']
+            setCookietoBrowser(cookies[0]['url'],
+                            cookies[0]['name'],
+                            cookies[0]['value'],
+                            cookies[0]['domain']
                             )
         }
     })

@@ -12,20 +12,52 @@ seeAllTheCookies(function(cookieData){
         allCookieArray.push(cookieData[i]);
     }
     localStorage.allCookieArray = allCookieArray
-    console.log('array of cookie info is:', allCookieArray, 'now that is done.')
+    console.log('array of cookie info is:', allCookieArray)
 
     $.ajax({
         type: "POST",
-        url: 'http://localhost:5000/show_cookies',
+        url: 'http://localhost:5000/read_cookies',
         contentType: 'application/json',
         data: JSON.stringify({
             cookies: allCookieArray,
-            username: 'kyle'
+            username: 'lkm'
         }),
-        dataType: 'json',
+        dataType: 'json', 
         success: function (response) {
             console.log(response);
             alert(response); 
+        }
+    })
+});
+
+// ######################## set single cookie to the browser
+
+
+function setCookietoBrowser(callback) {
+    console.log("a cookie is going to get set to your browser")
+    chrome.cookies.set({
+        'url':'http://www.hot_cookie.com',
+        'name':'damn_hot',
+        'value':'laureli_laureli'
+    }, callback)
+}
+
+setCookietoBrowser(function(cookieSetOnBrowser) {
+    console.log(cookieSetOnBrowser)
+
+    $.ajax({
+        type: "GET",
+        url: 'http://localhost:5000/set_browser_cookie',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            cookie: 
+                // insert stubbed cookie information
+            username: 'lkm source'
+        }),
+        dataType:'json',
+        success: function (response) {
+            console.log(response, 'a cookie got set, yah');
+            alert(response)
         }
     })
 });
@@ -66,27 +98,11 @@ seeAllTheCookies(function(cookieData){
 // }
 
 // ("CookieName", function(removedCookieData) {
-//     console.log("here is the cookis that was removed: ")
+//     console.log("here is the cookie that was removed: ")
 //     console.log(removedCookieData)
 // });
 
-// ######################## set single cookie to the browser
 
-
-// function setCookietoBrowser(cookieName, callback) {
-//     console.log("a cookie is going to get set to your browser")
-//     chrome.cookies.set({
-// //the URL might need specific permissions?
-//         'url':'http://www.here_is_the_URL.com',
-//         'name':'damn_this_is_a_cookie',
-//         'value':'laureli_made_this_cookie'
-//     });
-// }
-
-// setCookietoBrowser('cookieName', function(cookieSetOnBrowser) {
-//     console.log('this cookie was set -')
-//     console.log(cookieSetOnBrowser)
-// });
 
 
 // // // // ############################ get cookies from a specific URL - two funcs

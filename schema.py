@@ -32,14 +32,13 @@ class Cookie(Base):
 	value = Column(String(2000))
 	domain = Column(String(254))
 	path = Column(String(254))
-	expiration = Column(DateTime())
-	size = Column(Integer)
+	expiration = Column(String(254))
 	http = Column(Boolean())
 	secure = Column(Boolean())
 
 
 	def set_cookie_from_browser(self, c): # class instantiated @ monster.py
-		# include validating if statements here
+	  # include IF statements for data validation here
 		self.name = c['name']
 		self.value = c['value']
 		self.domain = c['domain']
@@ -49,6 +48,4 @@ class Cookie(Base):
   		print 'the domain is', c['domain']
 
 
-        # correct table; not dealing with two columns:
-        	# expiration = values[6],
-	        # size = values[0],
+

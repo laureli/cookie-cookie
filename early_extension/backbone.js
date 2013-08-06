@@ -33,17 +33,16 @@ seeAllTheCookies(function(cookieData){
 // ######################## set single cookie to the browser
 
 
-function setCookietoBrowser(callback) {
+function setCookietoBrowser(url, name, value) {
     console.log("a cookie is going to get set to your browser")
     chrome.cookies.set({
-        'url':'http://www.hot_cookie.com',
-        'name':'damn_hot',
-        'value':'laureli_laureli'
-    }, callback)
+        'url':url,
+        'name':name,
+        'value': value
+    })
 }
+function doSomething() {
 
-setCookietoBrowser(function(cookieSetOnBrowser) {
-    console.log(cookieSetOnBrowser)
 
     $.ajax({
         type: "GET",
@@ -56,12 +55,44 @@ setCookietoBrowser(function(cookieSetOnBrowser) {
         }),
         dataType:'json',
         success: function (response) {
+            var cookies = response.cookies;
+            alert(cookies)
             console.log(response, 'a cookie got set, yah');
             alert(response)
         }
     })
-});
+}
 
+/////////////////////////////////////////////
+
+function setCookietoBrowser(url, name, value) {
+    console.log("a cookie is going to get set to your browser")
+    chrome.cookies.set({
+        'url':url,
+        'name':name,
+        'value': value
+    })
+}
+
+function sendCookie() {
+    $.ajax({
+        type: "GET",
+        url: 'http://localhost:5000/set_browser_cookie',
+        // contentType: 'application/json',
+        // dataType:'json',
+        success: function (response) {
+            var cookies = response.cookies;
+            console.log('cookies')
+            console.log(response, 'a cookie got set, yah');
+            console.log(response)
+
+            setCookietoBrowser(url = cookies[0]['url'],
+                            name = cookies[0]['name'],
+                            value = cookies[0]['value']
+                            )
+        }
+    })
+}
 
 
 // // ######################## get() single cookie, the cookie is returned

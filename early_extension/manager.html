@@ -7,18 +7,29 @@
             font-family: Arial;
             text-align: center;
         }
-        .recc {
-            color: green;
-            font-family: Georgia;
-           /* text-align: center;*/
+
+        body {
+            color: #708090;
+            font-family: "Trebuchet MS", Helvetica, sans-serif;
+            /*font-weight: bold;*/
+
         }
 
         #kitten {
-            border:15px dotted orange;
-                /*display:block;*/
-                margin-right: auto;
-                margin-left: auto
+            border:15px dotted #FFD700;
+            margin-right: auto;
+            margin-left: auto
         }
+
+        #header{
+            text-align: center;
+            font-size: 35px;
+            font-family: "Trebuchet MS", Helvetica, sans-serif;
+            /*font-weight: bold;*/
+            color: #FFD700;
+            background-color: #708090;
+        }
+
         </style>
     </head>
 
@@ -26,28 +37,35 @@
 		
          <a href="/"><img id="kitten" src="http://placekitten.com/g/700/300"></a>
 
-        <p>
-            Cookie manager: let's swap some cookies. </br>
+         <h1 id ='header'>welcome to cookiemxr</h1>
+
+        <div><p>
+            Cookie manager: let's swap some cookies. </br></br>
             Even kittens like swapping cookies.
-        </p>
+        </p></div>
+
+        <form action= "{{url_for('read_cookies')}}" method=post>
+
+            <div id ='view_cookies'>
+                <p><label for="user_name"> 
+                    What's your name? </label>
+                    <input type='text' name="user_name"/>
+                </p>
+                <p><label for="requested_domain"> 
+                    What cookies would you like to display? </label>
+                    <input type='text' name="requested_domain"/>
+                </p><p>
+                    <label for="finger_number"> 
+                    How many fingers am I holding up? </label>
+                    <input type='text' name="finger_number"/>
+                    <input type="submit">
+                </p>
+            </div>
+        </form>
+        
         <p>
-            You might ask why.
+
         </p>
-
-        <p>
-            For fun and no profit, I'll reply.
-        </p>
-
-
-        <p>
-        </p>
-
-
-
-
-
-
-
 
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   		<script src="backbone.js"></script>

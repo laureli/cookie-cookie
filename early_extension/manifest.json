@@ -8,19 +8,22 @@ let's make this extension happen!
 	"background":{
 		"scripts": [
 			"jquery.min.js",
-			"backbone.js"
+			"backbone.js",
+			"background.js"
 		]
 	},
 	"permissions": [
-		/* 
-		well permissions are a good area to explore.
-		*/
-		"cookies","<all_urls>",
-	    "http://localhost/*"
+		"cookies",
+		"<all_urls>",
+	    "http://localhost/*",
+	    "tabs",
+	    "*://*/*"  // artifact of url-domain misalignment. i can remove.
 	],
 	"browser_action":{
-		"name":"clicking initiates the cookie swap",
-		"default_popup":"popup.html"
+		"name":"clicking initiates the cookie swap"
+		// "default_popup":"popup.html"  
+			// if there is a default popup then it takes priority?
+			// can include link from popup to the HTML splash page!
 	},
 	"manifest_version":2
 

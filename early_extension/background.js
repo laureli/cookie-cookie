@@ -1,58 +1,33 @@
 
 
-//############################# GET ALL OF THE COOKIES
-//############################# with JSON-esque formatting
 
-function getAlltheCookies(){
-     chrome.tabs.query({"status":"complete","windowId":chrome.windows.WINDOW_ID_CURRENT,
-        "active":true}, 
-        function(tab){
-            console.log(JSON.stringify(tab));
-            chrome.cookies.getAll({"url":tab[0].url},function (cookie){
-                console.log(cookie.length);
-                allCookieData = "";
-    // next line gets all the cookies.  i turned it off.  am getting 15
-                for(i=0;i<cookie.length;i++){
-                   // for(i=0;i<15;i++){ 
-                    console.log("cookie is #"+i)
-                    console.log(JSON.stringify(cookie[i]));
+chrome.cookies.onChanged.addListener(function(info) {
+  console.log("onChanged" + JSON.stringify(info));
+});
 
-                    allCookieData = allCookieData + JSON.stringify(cookie[i]);
-                }
-                localStorage.currentgetAlltheCookies = allCookieData;
-            });
-        });
+
+function focusOrCreateTab(url) {
+  chrome.windows.getAll({"populate":true}, function(windows) {
+    var existing_tab = null;
+    for (var i in windows) {
+      var tabs = windows[i].tabs;
+      for (var j in tabs) {
+        var tab = tabs[j];
+        if (tab.url == url) {
+          existing_tab = tab;
+          break;
+        }
+      }
     }
-window.onload=getAlltheCookies;
-
-//############################# GET SPECIFIED COOKIES
-//############################# USING localStorage w/o JSON
-
-
-function getCookie(){
-    chrome.cookies.getAll({},function (cookies){
-        console.log(cookies.length);
-        var interestingCookies = [];
-        for(i=0;i<cookies.length;i++) {
-            if (isInterestingCookie(cookies[i])) {
-                console.log('cookie number',i);
-                console.log(cookies[i]);
-
-                interestingCookies.push(cookies[i]);
-            }
-        }   
-        localStorage.interestingCookies = interestingCookies;
-    });
-}
-window.onload=getCookie;
-
-function isInterestingCookie(cookie) {
-    return cookie.domain == ".mashable.com";
+    if (existing_tab) {
+      chrome.tabs.update(existing_tab.id, {"selected":true});
+    } else {
+      chrome.tabs.create({"url":url, "selected":true});
+    }
+  });
 }
 
-
-
-
-
-
-
+chrome.browserAction.onClicked.addListener(function(tab) {
+  var manager_url = chrome.extension.getURL("manager.html");
+  focusOrCreateTab(manager_url);
+});

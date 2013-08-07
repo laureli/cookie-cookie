@@ -16,14 +16,11 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 
-@app.route('/view_cookies')
-def cookie_view():
-	return "show me the cookies on your computer, returning user!"
+# @app.route('/view_cookies', methods=['POST'], ['GET'])
+# def cookie_view():
+# 	return "show me the cookies on your computer, returning user!"
 	# existing user, see cookies there
 
-	domain = request.args.get('domain', 0, type=str)
-	
-	return jsonify(domain)
 
 
 @app.route('/read_cookies', methods=['POST'])
@@ -36,7 +33,7 @@ def read_cookies():
 		values = c.values()
 		# keys and values are LISTS
 
-		if values[0] == 'www.google.com':
+		if values[0] == 'www.'+ request.form['requested_domain']+'.com':
 			cookie_object = Cookie()
 			cookie_object.set_cookie_from_browser(c)
 		        session.add(cookie_object)
@@ -45,10 +42,18 @@ def read_cookies():
 	return jsonify(content)
 
 
-@app.route('/set_browser_cookie', method=['GET'])
+@app.route('/set_browser_cookie', methods=['GET'])
 def set_browser_cookie():
-	return 'cookie stub'
 
+# REMEMBER: url and domain need to be THE SAME PLACE !!!
+
+	return jsonify({"cookies": [
+		{"url": "http://www.snazzy.com", 
+		"name": "testCookie2", 
+		"value": "sample-value-here2",
+		"domain": "snazzy.com",}
+		]
+	})
 
 @app.route('/call_cookies')
 def call_cookies():
@@ -63,7 +68,9 @@ def index():
 	# send to _sign up_ for new users
 	return render_template('index.html')
 
-# ################## practice for JSON
+
+
+# ################## 
 	
 
 @app.route('/login')
@@ -91,6 +98,15 @@ def add_numbers():
     b = request.args.get('b', 0, type=int)
     c = request.args.get('c', 0, type=int)
     return jsonify(result=a + b * c)
+
+
+import os
+from flask import send_from_directory
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
 if __name__ == "__main__":

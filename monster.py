@@ -39,7 +39,7 @@ def before_request():
 
 ### End LoginHandler settings
 
-### start Web Socket settings
+### start websocket settings
 
 @app.route('/socket')
 def socket():
@@ -50,15 +50,18 @@ def socket():
 			ws.send(message)
 	return
 
+
+@app.route('/test')
+def test():
+	return render_template('test.html')
+
+
 ### end websocket settings
+
 
 ### start login / logout
 
 @app.route('/login', methods=["GET"])
-# def login():
-	# return render_template('login.html')
-
-# code from casandra --
 def login():
     # if user hasn't logged out redirect don't reload login page
     if current_user is not None and current_user.is_authenticated():
@@ -91,9 +94,41 @@ def logout():
 # REDIRECT BACK TO THE SPLASH PAGE
     return redirect('/index')
 
-### end login / logout
+##### end login / logout
 
 
+
+############### start managing users
+
+
+@app.route('/') # index!
+def index():
+	# splash page for not-logged in users arriving not from extension
+	# send to _login_ if you are a returning user
+	# send to _sign up_ for new users
+	return render_template('index.html')
+
+# this does math on the index
+@app.route('/_add_numbers')
+def add_numbers():
+    a = request.args.get('a', 0, type=int)
+    b = request.args.get('b', 0, type=int)
+    c = request.args.get('c', 0, type=int)
+    return jsonify(result=a * b + c)
+
+
+@app.route('/signup')
+def sign_up():
+	return "new user, put your information here in html"
+	# new user sign up here
+
+
+################ end managing users
+
+
+
+
+################ start cookie management
 
 @app.route('/read_cookies', methods=['POST'])
 def read_cookies():
@@ -116,14 +151,16 @@ def read_cookies():
 
 
 
-@app.route('/show_cookies')
-def show_cookies():
-	# return " here is where we designate domain to search, in html"
-	return render_template("show_cookies.html")
+@app.route('/welcome')
+def welcome():
+	return render_template("welcome.html")
 
+@app.route('/search')
+def search_cookies():
+	return render_template("search.html")
+	# return ""
 
-
-@app.route('/set_browser_cookie', methods=['GET'])
+@app.route('/set_browser_cookie')
 def set_browser_cookie():
 
 # REMEMBER: url and domain need to be THE SAME PLACE !!!
@@ -132,57 +169,35 @@ def set_browser_cookie():
 		{"url": "http://www.snaps.com", 
 		"name": "testCookie3", 
 		"value": "sample-value-here22",
-		"domain": "snaps.com",}
+		"domain": "snaps.com"}
 		]
 	})
 
+
 @app.route('/call_cookies')
 def call_cookies():
-	# return " here is where we designate domain to search, in html"
+	# call cookies here
 	return render_template("call_cookies.html")
 
-@app.route('/test')
-def test():
-	return render_template('test.html')
+
+@app.route('/show_cookies')
+def show_cookies():
+	# show cookies that are called above.
+	return render_template("show_cookies.html")
 
 
-@app.route('/') # index!
-def index():
-	# splash page, organization 
-	# send to _login_ if you are a returning user
-	# send to _sign up_ for new users
-	return render_template('index.html')
+################ stop cookie management
+
+
+################ start development and test section
 
 
 
 
-
-# ################## 
-	
-
-@app.route('/welcome') # splash page
-def welcome():
-	return "quoi, you return - we love you in html"
-	#returning user welcome page
-
-@app.route('/signup')
-def sign_up():
-	return "new user, put your information here in html"
-	# new user sign up here
-
-
-@app.route('/_add_numbers')
-def add_numbers():
-    a = request.args.get('a', 0, type=int)
-    b = request.args.get('b', 0, type=int)
-    c = request.args.get('c', 0, type=int)
-    return jsonify(result=a + b * c)
-
-
-@app.route('/favicon.ico')
-def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'),
-                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+# @app.route('/favicon.ico')
+# def favicon():
+#     return send_from_directory(os.path.join(app.root_path, 'static'),
+#                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
 
@@ -190,6 +205,12 @@ def favicon():
 # def cookie_view():
 # 	return "show me the cookies on your computer, returning user!"
 	# existing user, see cookies there
+
+
+################ stop development and test section
+
+
+################ start app /websockets etc.
 
 
 if __name__ == "__main__":

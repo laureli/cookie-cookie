@@ -1,0 +1,70 @@
+<html>
+    <head>
+
+        <style>
+        #about {
+            color: blue;
+            font-family: Arial;
+            text-align: center;
+        }
+
+        body {
+            color: #708090;
+            font-family: "Trebuchet MS", Helvetica, sans-serif;
+            /*font-weight: bold;*/
+
+        }
+
+        #kitten {
+            border:15px dotted #FFD700;
+            margin-right: auto;
+            margin-left: auto
+        }
+
+        #header{
+            text-align: center;
+            font-size: 35px;
+            font-family: "Trebuchet MS", Helvetica, sans-serif;
+            /*font-weight: bold;*/
+            color: #FFD700;
+            background-color: #708090;
+        }
+
+        </style>
+    </head>
+
+    <body>
+
+         <h1 id ='header'>cookiemxr: </h1>
+
+        <div><p>
+            Log in for the swaps or sign up if you haven't been here before.</br></br>
+            Kitteh says: don't swap all your cookies because of have important information in there.
+        </p></div>
+
+        <form action= "{{url_for('read_cookies')}}" method=post>
+
+            <div id ='login_info'>
+                <p><label for="user_name"> 
+                    Username: </label>
+                    <input type='text' name="user_name"/>
+                </p>
+                <p><label for="password"> 
+                    Password: </label>
+                    <input type='password' name="password"/>
+                </p>
+                    <input type="submit">
+                </p>
+            </div>
+        </form>
+        
+        <p>
+        <a href="/"><img id="nomnom" src="http://upload.wikimedia.org/wikipedia/commons/c/c5/Oreo_Cookies.jpg"></a>
+        </p>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="backbone.js"></script>
+        <script src="popup.js"></script>
+    </body>
+
+</html>

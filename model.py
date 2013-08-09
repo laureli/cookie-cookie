@@ -1,32 +1,20 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
-from sqlalchemy import Column, Integer, String, DateTime, Boolean
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import DateTime
+from sqlalchemy.orm import sessionmaker, scoped_session
+
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship, backref
 
 
-# EXPLANATION OF DB call: 'postgresql://user:password@localhost/database
-# engine = create_engine('postgresql://mixerapp:mixerapp@localhost:5432/mixer')
+engine = create_engine("postgresql://mixerapp:mixerapp@localhost:5432/mixer", echo=False)
+session = scoped_session(sessionmaker(bind=engine,
+                                autocommit=False,
+                                autoflush=False))
 
-# session = scoped_session(sessionmaker(bind=engine,
-#                                 autocommit=False,
-#                                 autoflush=False))
-def connect():
-    global ENGINE
-    global Session
-
-    ENGINE = create_engine("postgresql://mixerapp:mixerapp@localhost:5432/mixer", echo=True)
-    Session = sessionmaker(bind=ENGINE)
-
-    return Session()
-
-# session = Session()
-
-Base  =declarative_base()
-# Base.query = session.query_property()
-
-
-### Class declarations go here
+Base = declarative_base()
+Base.query = session.query_property()
 
 class User(Base):
 	__tablename__="users"
@@ -34,8 +22,7 @@ class User(Base):
 	username = Column(String(65))
 	email = Column(String(255)) # check the limit in standards for email
 	password = Column(String(65))
-#	machine_id = Column(Integer)
-	# -> machine_id not currently in the database table
+
 
 class Cookie(Base):
 	__tablename__="cookies"
@@ -45,20 +32,18 @@ class Cookie(Base):
 	value = Column(String(2000))
 	domain = Column(String(254))
 	path = Column(String(254))
-	expiration = Column(DateTime())
-	size = Column(Integer)
+	expiration = Column(String(254))
 	http = Column(Boolean())
 	secure = Column(Boolean())
 
 
-### End class declarations
+	def set_cookie_from_browser(self, c): # class instantiated @ monster.py
+	  # include IF statements for data validation here
+		self.name = c['name']
+		self.value = c['value']
+		self.domain = c['domain']
+		self.path = c['path']
+		self.http = c['httpOnly']
+		self.secure = c['secure']
+  		print 'the domain is', c['domain']
 
-def main():
-    """In case we need this for something"""
-    pass
-
-
-
-
-if __name__ == "__main__":
-    main()

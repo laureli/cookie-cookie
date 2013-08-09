@@ -1,24 +1,44 @@
 import os
 from flask import Flask, render_template, send_from_directory, request, redirect, jsonify
-import schema
-from schema import Cookie, User, session
+from flask.ext.login import LoginManager, login_user, logout_user, current_user, login_required
+import model
+from model import Cookie, User, session
 
 from geventwebsocket.handler import WebSocketHandler
 from gevent.pywsgi import WSGIServer
 import json
 
-#configuration information
+# DB config information
 DATABASE = '/tmp/mixerapp.db' 
 DEBUG = True
 SECRET_KEY = 'development key'
-USERNAM = 'admin' 
+USERNAME = 'admin' 
 PASSWORD = 'default'
 
 
-#application
+# application
 app = Flask(__name__)
 app.config.from_object(__name__)
 
+### Start LoginHandler settings
+
+lm = LoginManager()
+lm.init_app(app)
+lm.login_view = 'login'
+
+@lm.user_loader
+def load_user(id):
+    return model.session.query(model.User).get(id)
+
+@app.before_request
+def before_request():
+    g.user = current_user
+    # this is used as 'current_user.id' or 'current_user.email'
+   
+
+### End LoginHandler settings
+
+### start Web Socket settings
 
 @app.route('/socket')
 def socket():
@@ -29,11 +49,48 @@ def socket():
 			ws.send(message)
 	return
 
+### end websocket settings
 
-@app.route('/login')
+### start login / logout
+
+@app.route('/login', methods=['POST'])
 def login():
 	return render_template('login.html')
 
+# code from casandra --
+	def login():
+	    # if user hasn't logged out redirect don't reload login page
+	    if current_user is not None and current_user.is_authenticated():
+	        return redirect(url_for('user'))
+
+	    form = LoginForm()  
+    # LoginForm() is defined in the forms.py file
+	    if form.validate_on_submit():
+
+	        user= model.session.query(model.User).filter_by(email=form.email.data, password=form.password.data).first()
+	    
+	        if user is not None:
+	            login_user(user)
+	            flash("Welcome")
+	        else:
+	            flash("Invalid login")
+
+	        return redirect(request.args.get("next") or url_for('user'))
+	        
+	    
+	    return render_template('login.html',
+	                            title='Sign In',
+	                            form=form)
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+# REDIRECT BACK TO THE SPLASH PAGE
+    return redirect('/index')
+
+### end login / logout
 
 
 

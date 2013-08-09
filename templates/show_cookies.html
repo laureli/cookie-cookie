@@ -23,60 +23,10 @@
 
     <body>
 
-        <a href="/"><img id="kitten" src="http://placekitten.com/g/700/400"></a>
+display all the cookies in a big old table.
 
-<!-- assuming that the form action goes outside of the JS -->
-        <!-- <form action="/view_cookies"> <!-- directs to view_cookies --> -->
+maybe make them searchable by domain.
 
-        <script type=text/javascript>
-              $(function() {
-                $('a#calculate').bind('click', function() {
-                  $.getJSON($SCRIPT_ROOT + '/view_cookies', {
-                    a: $('input[name="domain"]').val(),
-                  }, function(data) {
-                    $("#result").text(data.result);
-                  });
-                  return false;
-                });
-              });
-        </script>
-
-        <script type=text/javascript>
-
-            function getCookies(){
-                chrome.cookies.getAll({},function (cookies) {
-                    console.log(cookies.length);
-                    var interestingCookies = [];
-                    for(i=0;i<cookies.length;i++) {
-                        if (isInterestingCookie(cookies[i])) {
-                            console.log('cookie number',i);
-                            console.log(cookies[i]);
-                            interestingCookies.push(cookies[i]);
-                        }
-                    }   
-                    localStorage.interestingCookies = interestingCookies;
-                });
-            }
-            window.onload=getCookies;
-
-            function isInterestingCookie(cookie) {
-                console.log('get cookies with one shared parameter')
-// insert the name of the domain below
-                return cookie.domain == ".eventbrite.com";
-            }
-
-        </script>
-
-    <h1>designate domain using jquery</h1>
-    <p><input type=text size=5 name=domain> domain please
-       <span id=result>?</span>
-    <p><a href=# id=getCookies>get the cookies</a>
-
-        <p>
-            here, we are going to look at all the cookies currently on your browser.
-
-        </p>
-    </form>
 
 </body>
 </html>

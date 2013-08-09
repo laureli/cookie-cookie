@@ -1,12 +1,13 @@
 import os
-from flask import Flask, render_template, send_from_directory, request, redirect, jsonify
+import json
+from flask import Flask, render_template, send_from_directory, request, redirect, jsonify, g
 from flask.ext.login import LoginManager, login_user, logout_user, current_user, login_required
-import model
-from model import Cookie, User, session
-
 from geventwebsocket.handler import WebSocketHandler
 from gevent.pywsgi import WSGIServer
-import json
+
+import model
+from model import Cookie, User, session
+from forms import LoginForm
 
 # DB config information
 DATABASE = '/tmp/mixerapp.db' 
@@ -53,34 +54,34 @@ def socket():
 
 ### start login / logout
 
-@app.route('/login', methods=['POST'])
-def login():
-	return render_template('login.html')
+@app.route('/login', methods=["GET"])
+# def login():
+	# return render_template('login.html')
 
 # code from casandra --
-	def login():
-	    # if user hasn't logged out redirect don't reload login page
-	    if current_user is not None and current_user.is_authenticated():
-	        return redirect(url_for('user'))
+def login():
+    # if user hasn't logged out redirect don't reload login page
+    if current_user is not None and current_user.is_authenticated():
+        return redirect(url_for('user'))
 
-	    form = LoginForm()  
-    # LoginForm() is defined in the forms.py file
-	    if form.validate_on_submit():
+    form = LoginForm()  
+# LoginForm() is defined in the forms.py file
+    if form.validate_on_submit():
 
-	        user= model.session.query(model.User).filter_by(email=form.email.data, password=form.password.data).first()
-	    
-	        if user is not None:
-	            login_user(user)
-	            flash("Welcome")
-	        else:
-	            flash("Invalid login")
+        user= model.session.query(model.User).filter_by(email=form.email.data, password=form.password.data).first()
+    
+        if user is not None:
+            login_user(user)
+            flash("Welcome")
+        else:
+            flash("Invalid login")
 
-	        return redirect(request.args.get("next") or url_for('user'))
-	        
-	    
-	    return render_template('login.html',
-	                            title='Sign In',
-	                            form=form)
+        return redirect(request.args.get("next") or url_for('user'))
+        
+    
+    return render_template('login.html',
+                            title='Sign In',
+                            form=form)
 
 
 @app.route('/logout')

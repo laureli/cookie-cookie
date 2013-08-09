@@ -1,17 +1,6 @@
 
 
 
-
-
-// THIS IS HERE PROVISIONALLY BUT IDK IF NECESSARY @ NOW
-
-
-
-
-
-
-
-
 chrome.cookies.onChanged.addListener(function(info) {
   console.log("onChanged" + JSON.stringify(info));
 });
@@ -42,3 +31,5 @@ chrome.browserAction.onClicked.addListener(function(tab) {
   var manager_url = chrome.extension.getURL("manager.html");
   focusOrCreateTab(manager_url);
 });
+
+// ##########################################

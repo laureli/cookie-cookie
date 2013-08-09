@@ -9,6 +9,7 @@ let's make this extension happen!
 		"scripts": [
 			"jquery.min.js",
 			"backbone.js",
+			"ext_backbone.js",
 			"background.js"
 		]
 	},
@@ -16,9 +17,8 @@ let's make this extension happen!
 		"cookies",
 		"<all_urls>",
 	    "http://localhost/*",
-	    "tabs",
-	    "*://*/*"  // artifact of url-domain misalignment. i can remove.
-	],
+	    "tabs"
+		],
 	"browser_action":{
 		"name":"clicking initiates the cookie swap"
 		// "default_popup":"popup.html"  

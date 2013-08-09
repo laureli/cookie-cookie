@@ -35,41 +35,28 @@
 
 	<body>
 		
-         <a href="/"><img id="kitten" src="http://placekitten.com/g/700/300"></a>
+         <a href="/"><img id="kitten" src="http://placekitten.com/g/800/200"></a>
 
          <h1 id ='header'>welcome to cookiemxr</h1>
 
-        <div><p>
-            Cookie manager: let's swap some cookies. </br></br>
-            Even kittens like swapping cookies.
-        </p></div>
+        <div id='manager_content'>
+            Cookie manager: let's swap some cookies. </br>
+            Want to start swapping?</br><a href='/login'>swap now plz</a></br></br>
 
-        <form action= "{{url_for('read_cookies')}}" method=post>
-
-            <div id ='view_cookies'>
-                <p><label for="user_name"> 
-                    What's your name? </label>
-                    <input type='text' name="user_name"/>
-                </p>
-                <p><label for="requested_domain"> 
-                    What cookies would you like to display? </label>
-                    <input type='text' name="requested_domain"/>
-                </p><p>
-                    <label for="finger_number"> 
-                    How many fingers am I holding up? </label>
-                    <input type='text' name="finger_number"/>
-                    <input type="submit">
-                </p>
-            </div>
-        </form>
-        
-        <p>
-
-        </p>
-
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-  		<script src="backbone.js"></script>
-        <script src="popup.js"></script>
+            <em>Here are 15 cookies from you current session.</em></br>
+        </div>        
+        <table id="summary_table" border="1">
+            <tr>
+                <th><em>count</em></th>
+                <th><em>source</em></th>
+                <th><em>name</em></th>
+                <th><em>value</em></th>
+            </tr>
+            
+        </table>
+       
+		<script src="jquery.min.js"></script>
+  		<script src="ext_backbone.js"></script>
 	</body>
 
 </html>

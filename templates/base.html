@@ -1,0 +1,58 @@
+
+<html>
+    <head>
+
+        <style>
+        #about {
+            color: blue;
+            font-family: Arial;
+            text-align: center;
+        }
+
+        body {
+            color: #708090;
+            font-family: "Trebuchet MS", Helvetica, sans-serif;
+            /*font-weight: bold;*/
+
+        }
+
+        #kitten {
+            border:15px dotted #FFD700;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        #header{
+            text-align: center;
+            font-size: 35px;
+            font-family: "Trebuchet MS", Helvetica, sans-serif;
+            /*font-weight: bold;*/
+            color: #FFD700;
+            background-color: #708090;
+        }
+        </style>
+
+    </head>
+
+	{% if title %}
+		<title>{{title}} :: cookiemxr</title>
+	{% else %}
+		<title>cookiemxr</title>
+	{% endif %}
+
+	<body>
+		<div>
+		    	{% if header %}
+					<h2 id="header">cookiemxr : {{header}} </h2>
+				{% else %}
+				    <h2 id="header">cookiemxr:</h2>
+				{% endif %}
+		</div>
+		<div>
+			cookiemxr: <a href="/index">mxr home</a>
+		</div>
+		<hr>
+		{% block content %}{% endblock %}
+
+	</body>
+</html>

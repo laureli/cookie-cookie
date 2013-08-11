@@ -1,40 +1,33 @@
-<html>
-    <head>
-        <style>
-        #about {
-            color: blue;
-            font-family: Arial;
-            text-align: center;
-        }
-drxz
-        #header {
-            border:10px dotted black;
-                /*display:block;*/
-            text-align: center;
-       }
-        </style>
-    </head>
+{% extends "base.html" %}
 
-    <body>
+{% block content %}
+    <script src="static/js/jquery.min.js"></script>
 
-        <form action="/search" method="GET" name= "show_cookies">
+    <form action="/search" method="GET" name= "search">
 
-        <h2 id ='header'>chose a domain to search for cookies</h2>
-        <p>enter a domain please:</br>
-            <input type=text size=15 name=domain id="relevant_domain">
-            <span id=result></span> </br>
-        <input type="submit">
-        <div id = 'goto_search'
-            Want to search for a different domain?</br><a href='/search'>search now plz</a></br></br>
-        </div>
+    <script type="text/javascript">
+        $("#sbtn").click(function() {
+        console.log('really guys?');
+    });
+    </script>
 
-        <p><a href=# id=searchBySomain>get the cookies</a>
+    <p>enter a domain please:</p></br>
+        <input type=text size=15 name=domain id="relevant_domain">
+</input>
+        <span id=result> </span> </br>
+        <input id="sbtn" type="submit"> 
 
-<script src="jquery.min.js"></script>
-<script src="library.js"></script>
+        <script type="text/javascript">
+            $("#sbtn").click(function() {
+            getSelectedDomain();
+        });
+        </script>
 
-</body>
-</html>
+
+    <script src="/static/js/library.js"></script>
+    <script src="/static/js/pop.js"></script>
+{% endblock %}
+
 
 
 

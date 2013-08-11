@@ -1,40 +1,6 @@
-<html>
-    <head>
+{% extends "base.html" %}
 
-        <style>
-        #about {
-            color: blue;
-            font-family: Arial;
-            text-align: center;
-        }
-
-        body {
-            color: #708090;
-            font-family: "Trebuchet MS", Helvetica, sans-serif;
-            /*font-weight: bold;*/
-        }
-
-        #kitten {
-            border:15px dotted #FFD700;
-            margin-right: auto;
-            margin-left: auto
-        }
-
-        #header{
-            text-align: center;
-            font-size: 35px;
-            font-family: "Trebuchet MS", Helvetica, sans-serif;
-            /*font-weight: bold;*/
-            color: #FFD700;
-            background-color: #708090;
-        }
-
-        </style>
-    </head>
-
-    <body>
-
-         <h1 id ='header'>cookiemxr: </h1>
+{% block content %}
 
         <div><p>
             Log in for the swaps or sign up if you haven't been here before.</br></br>
@@ -52,29 +18,26 @@
     <!-- Name & DOB-->
     <h3 id="login_label"> User Login </h3>
     <table>
+        <tr>
+        <th>username here </th>
+        <th> password here</th>
+        </tr>
+
         <th>{{form.username.description}}</th>
         <th>{{form.password.description}}</th>
         
         <tr>
-            <td>{{render_field(form.firstname)}} </td>
+            <td>{{render_field(form.username)}}</td>
             <td>{{render_field(form.password)}}</td>
         </tr> 
 </form>
-
-
-
-
-
         <p>
-        <a href="/"><img id="nomnom" src="http://upload.wikimedia.org/wikipedia/commons/c/c5/Oreo_Cookies.jpg"></a>
         </p>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="backbone.js"></script>
         <script src="popup.js"></script>
-    </body>
-
-</html>
+{% endblock %}
 
         
 

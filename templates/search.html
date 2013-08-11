@@ -1,35 +1,13 @@
-<html>
-    <head>
-        <style>
-        #about {
-            color: blue;
-            font-family: Arial;
-            text-align: center;
-        }
+{% extends "base.html" %}
 
-        body {
-            color: black;
-            font-family: "Trebuchet MS", Helvetica, sans-serif;
-            /*font-weight: bold;*/
-
-        }
-
-        #header {
-            border:10px dotted black;
-                /*display:block;*/
-            text-align: center;
-       }
-        </style>
-    </head>
-
-    <body>
+{% block content %}
+        <script src="/static/js/jquery.min.js"></script>
 
         <form action="/search" method="GET" name= "show_cookies">
 
-        <h2 id ='header'>chose a domain to search for cookies</h2>
         <p>enter a domain please:</br>
             <input type=text size=15 name=domain id="relevant_domain">
-            <span id=result></span> </br>
+            <span id=result> </span> </br>
         <input type="submit">
         <div id = 'goto_search'
             Want to search for a different domain?</br><a href='/search'>search now plz</a></br></br>
@@ -41,22 +19,19 @@
 
         </p>
         </div>        
-        <table id="summary_table" border="1">
+        <table id="cookie_domain_table" border="1">
             <tr>
-                <th><em>count</em></th>
+                <th><em>i</em></th>
                 <th><em>source</em></th>
                 <th><em>name</em></th>
                 <th><em>value</em></th>
             </tr>
             
         </table>
-        
-        <script src="jquery.min.js"></script>
-        <script src="library.js"></script>
+        <script src="/static/js/library.js"></script>
+        <script src="/static/js/pop.js"></script>
 
-</body>
-</html>
-
+{% endblock %}
 
 
 

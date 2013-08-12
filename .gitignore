@@ -37,7 +37,7 @@ nosetests.xml
 
 /env
 NOTES.txt
-
+NOTES AND REMINDERS.txt
 
 lib-cov
 *.seed

@@ -5,19 +5,16 @@
 
     <form action="/search" method="GET" name= "search">
 
-    <script type="text/javascript">
-        $("#sbtn").click(function() {
-        console.log('really guys?');
-    });
-    </script>
-
     <p>enter a domain please:</p></br>
         <input type=text size=15 name=domain id="relevant_domain">
-</input>
+        </input>
+        
         <span id=result> </span> </br>
-        <input id="sbtn" type="submit"> 
+        <input id="sbtn" type="submit" /> 
+    </form>
 
         <script type="text/javascript">
+            console.log('really guys?');
             $("#sbtn").click(function() {
             getSelectedDomain();
         });

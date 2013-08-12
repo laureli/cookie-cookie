@@ -23,6 +23,20 @@ class User(Base):
 	email = Column(String(255)) # check the limit in standards for email
 	password = Column(String(65))
 
+	def is_authenticated(self):
+		return True
+
+	def is_active(self):
+		return True
+
+	def is_anonymous(self):
+		return False
+
+	def get_id(self):
+		return unicode(self.id)
+
+	def __repr__(self):
+		return '<User %r>' % (self.username)
 
 class Cookie(Base):
 	__tablename__="cookies"

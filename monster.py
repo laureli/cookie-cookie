@@ -21,25 +21,7 @@ PASSWORD = 'default'
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-### Start LoginHandler settings
-
-lm = LoginManager()
-lm.init_app(app)
-lm.login_view = 'login'
-
-@lm.user_loader
-def load_user(id):
-    return model.session.query(model.User).get(id)
-
-@app.before_request
-def before_request():
-    g.user = current_user
-    # this is used as 'current_user.id' or 'current_user.email'
-   
-
-### End LoginHandler settings
-
-### start websocket settings
+############### start websocket settings ###############
 
 @app.route('/socket')
 def socket():
@@ -56,19 +38,36 @@ def test():
 	return render_template('test.html')
 
 
-### end websocket settings
+############### end websocket settings ###############
+
+############### Start LoginHandler settings ###############
+
+lm = LoginManager()
+lm.init_app(app)
+lm.login_view = 'login'
+
+@lm.user_loader
+def load_user(id):
+    return model.session.query(model.User).get(int(id))
+
+@app.before_request
+def before_request():
+    g.user = current_user
+    # this is used as 'current_user.id' or 'current_user.email'
+   
+
+############### End LoginHandler settings ###############
 
 
-### start login / logout
+############### start login / logout ###############
 
-@app.route('/login', methods=["GET"])
+@app.route('/login', methods=["GET", "POST"])
 def login():
     # if user hasn't logged out redirect don't reload login page
     if current_user is not None and current_user.is_authenticated():
         return redirect(url_for('user'))
 
     form = LoginForm()  
-# LoginForm() is defined in the forms.py file
     if form.validate_on_submit():
 
         user= model.session.query(model.User).filter_by(email=form.email.data, password=form.password.data).first()
@@ -92,13 +91,12 @@ def login():
 def logout():
     logout_user()
 # REDIRECT BACK TO THE SPLASH PAGE
-    return redirect('/index')
+    return redirect(url_for('/index'))
 
-##### end login / logout
+############### end login / logout ###############
 
 
-
-############### start managing users
+############### start managing users ###############
 
 
 @app.route('/') # index!
@@ -123,12 +121,10 @@ def sign_up():
 	# new user sign up here
 
 
-################ end managing users
+################ end managing users ###############
 
 
-
-
-################ start cookie management
+################ start cookie management ###############
 
 @app.route('/read_cookies', methods=['POST'])
 def read_cookies():
@@ -150,15 +146,20 @@ def read_cookies():
 	return redirect("/show_cookies.html")
 
 
-
-@app.route('/welcome')
+@app.route('/welcome', methods=['GET', 'POST'])
 def welcome():
-	return render_template("welcome.html")
+	return render_template("welcome.html",
+		header = 'welcome'
+		)
+
 
 @app.route('/search')
 def search_cookies():
-	return render_template("search.html")
+	return render_template("search.html",
+		header = 'search results'
+		)
 	# return ""
+
 
 @app.route('/set_browser_cookie')
 def set_browser_cookie():
@@ -186,12 +187,10 @@ def show_cookies():
 	return render_template("show_cookies.html")
 
 
-################ stop cookie management
+################ stop cookie management ###############
 
 
-################ start development and test section
-
-
+################ start development & test section ###############
 
 
 # @app.route('/favicon.ico')
@@ -200,17 +199,16 @@ def show_cookies():
 #                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
-
 # @app.route('/view_cookies', methods=['POST'], ['GET'])
 # def cookie_view():
 # 	return "show me the cookies on your computer, returning user!"
 	# existing user, see cookies there
 
 
-################ stop development and test section
+################ stop development and test section ###############
 
 
-################ start app /websockets etc.
+################ start app, websockets, infrastructure ###############
 
 
 if __name__ == "__main__":

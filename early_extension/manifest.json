@@ -21,13 +21,14 @@ let's make this extension happen!
 		"cookies",
 		"<all_urls>",
 	    "http://localhost/*",
-	    "tabs"
+	    "tabs",
+	    "http://*/*"
 		],
 	"browser_action":{
 		"name":"clicking initiates the cookie swap"
-		"default_popup":"popup.html"  
+			// "default_popup":"popup.html"  
 			// if there is a default popup then it takes priority?
-			// can include link from popup to the HTML splash page!
+				// use the popup as a navigation pane later.
 	},
 	"manifest_version":2
 

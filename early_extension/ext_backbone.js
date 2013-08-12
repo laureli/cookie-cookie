@@ -4,7 +4,7 @@ function seeAllTheCookies (callback){
     chrome.cookies.getAll({}, callback);
 }
 
-seeAllTheCookies(function(cookieData){
+seeAllTheCookies(function(cookieData) {
     console.log('number of cookies',cookieData.length)
     var allCookieArray = [];
     for (i=0; i<cookieData.length; i++) {
@@ -13,7 +13,10 @@ seeAllTheCookies(function(cookieData){
     localStorage.allCookieArray = allCookieArray
    
     var i=0; while (i<15) {i++
-        $('#summary_table').append('<tr><td>'+i+'</td><td>'+allCookieArray[i]['domain']+'</td><td>'+allCookieArray[i]['name']+'</td><td>'+allCookieArray[i]['value']+'</td></tr>')
+        $('#summary_table').append('<tr><td>'+i+'</td><td>'+
+            allCookieArray[i]['domain']+'</td><td>'+
+            allCookieArray[i]['name']+'</td><td>'+
+            allCookieArray[i]['value']+'</td></tr>')
     }
 });
 

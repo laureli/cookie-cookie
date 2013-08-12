@@ -3,14 +3,18 @@ let's make this extension happen!
 */
 
 {
-	"name": "browser action swaps cookies when clicked",
+	"name": "extension starts a cookie swap when clicked",
 	"version": "0.0.1",
 	"background":{
 		"scripts": [
 			"jquery.min.js",
-			"backbone.js",
-			"ext_backbone.js",
-			"background.js"
+			"background.js",
+			"foundation.js",
+			"ext_backbone.js"
+		],
+		"pages": [
+			"background.html",
+			"fuzzy.html"
 		]
 	},
 	"permissions": [
@@ -21,7 +25,7 @@ let's make this extension happen!
 		],
 	"browser_action":{
 		"name":"clicking initiates the cookie swap"
-		// "default_popup":"popup.html"  
+		"default_popup":"popup.html"  
 			// if there is a default popup then it takes priority?
 			// can include link from popup to the HTML splash page!
 	},

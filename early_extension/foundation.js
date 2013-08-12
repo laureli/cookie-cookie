@@ -17,7 +17,7 @@
 
 //     $.ajax({
 //         type: "POST",
-//         url: 'http://localhost:5000/read_cookies',
+//         url: 'http://localhost:5000/load_cookies',
 //         contentType: 'application/json',
 //         data: JSON.stringify({
 //             cookies: allCookieArray,
@@ -68,7 +68,7 @@
 
 
 // // ######################## get() single cookie, the cookie is returned
-                            // as an OBJECT, diff from getAll()
+//                             // as an OBJECT, diff from getAll()
 
 // function getSpecificCookie (cookieName, callback){
 //     console.log("called getCookie")
@@ -108,7 +108,7 @@
 
 
 
-// // // // ############################ get cookies from a specific URL - two funcs
+// // // // // ############################ get cookies from a specific URL - two funcs
 // function getCookies(){
 //     chrome.cookies.getAll({},function (cookies) {
 //         console.log(cookies.length);
@@ -125,8 +125,8 @@
 // }
 // window.onload=getCookies;
 
-//     // the code below - both chunks - work with the above function to push 
-//     // specified cookies to an array called interestingCookies
+// //     // the code below - both chunks - work with the above function to push 
+// //     // specified cookies to an array called interestingCookies
 
 // function isInterestingCookie(cookie) {
 //     console.log('get cookies with one shared parameter')

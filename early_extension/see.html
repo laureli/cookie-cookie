@@ -1,0 +1,64 @@
+<html>
+    <head>
+
+        <style>
+        #about {
+            color: blue;
+            font-family: Arial;
+            text-align: center;
+        }
+
+        body {
+            color: #708090;
+            font-family: "Trebuchet MS", Helvetica, sans-serif;
+            /*font-weight: bold;*/
+
+        }
+
+        #kitten {
+            border:15px dotted #FFD700;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        #header{
+            text-align: center;
+            font-size: 35px;
+            font-family: "Trebuchet MS", Helvetica, sans-serif;
+            /*font-weight: bold;*/
+            color: #FFD700;
+            background-color: #708090;
+        }
+
+        </style>
+    </head>
+
+	<body>
+		
+         <h1 id ='header'>welcome to cookiemxr</h1>
+
+        <div id='manager_content'>
+            Cookie manager: let's swap some cookies. </br>
+            Want to start swapping?</br><a href='/see.html'>swap now plz</a></br></br>
+
+            <em>Here are 15 cookies from you current session.</em></br>
+        </div>        
+        <table id="summary_table" border="1">
+            <tr>
+                <th><em>count</em></th>
+                <th><em>source</em></th>
+                <th><em>name</em></th>
+                <th><em>value</em></th>
+            </tr>
+            
+        </table>
+        
+        <a href="/"><img id="kitten" src="http://placekitten.com/g/800/200"></a>
+
+		<script src="jquery.min.js"></script>
+  		<script src="ext_backbone.js"></script>
+        <script src="pop.js"></script>
+
+	</body>
+
+</html>

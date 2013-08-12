@@ -1,15 +1,12 @@
-/*
-let's make this extension happen!
-*/
+/* extensions for fun */
 
 {
-	"name": "extension starts a cookie swap when clicked",
+	"name": "A cookiemxr: starts a cookie swap when clicked",
 	"version": "0.0.1",
 	"background":{
 		"scripts": [
 			"jquery.min.js",
 			"background.js",
-			"foundation.js",
 			"ext_backbone.js"
 		],
 		"pages": [

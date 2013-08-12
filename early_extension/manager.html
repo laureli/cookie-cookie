@@ -41,7 +41,7 @@
     </head>
 
 	<body>
-		
+
          <a href="/"><img id="kitten" src="http://placekitten.com/g/800/200"></a>
 
          <h1 id ='header'>welcome to cookiemxr</h1>
@@ -78,30 +78,16 @@
         </div>
 
 
-    <script type="text/javascript">
+    <script>
         console.log('send cookies to database');
         $("#send_btn").click(function() {
-        sendAlltheCookies();
-    });
+            console.log('send cookies to database');
+            sendAlltheCookies();
+        });
     </script>
 
-
-    <script type="text/javascript">
-        console.log('getting cookies for specified domain');
-        $("#swap_btn").click(function() {
-        sendAlltheCookies();
-    });
-    </script>
-
-    <script src="jquery.min.js"></script>
-    <script src="/static/js/library.js"></script>
-    <script src="/static/js/pop.js"></script>
-
-
-       
 		<script src="jquery.min.js"></script>
   		<script src="ext_backbone.js"></script>
-        <script src="pop.js"></script>
 
 	</body>
 

@@ -1,72 +1,38 @@
 
 
-
-// chrome.cookies.onChanged.addListener(function(info) {
-//   console.log("onChanged" + JSON.stringify(info));
-// });
-
-
-// function focusOrCreateTab(url) {
-//   chrome.windows.getAll({"populate":true}, function(windows) {
-//     var existing_tab = null;
-//     for (var i in windows) {
-//       var tabs = windows[i].tabs;
-//       for (var j in tabs) {
-//         var tab = tabs[j];
-//         if (tab.url == url) {
-//           existing_tab = tab;
-//           break;
-//         }
-//       }
-//     }
-//     if (existing_tab) {
-//       chrome.tabs.update(existing_tab.id, {"selected":true});
-//     } else {
-//       chrome.tabs.create({"url":url, "selected":true});
-//     }
-//   });
-// }
-
-// chrome.browserAction.onClicked.addListener(function(tab) {
-//   var manager_url = chrome.extension.getURL("manager.html");
-//   focusOrCreateTab(manager_url);
-// });
-
-// ##########################################
-
-
-
 // // ##################################### GET ALL THE COOKIES into an array
 
-// function seeAllTheCookies (callback){
-//     console.log("getting all the cookies, simply.")
-//     chrome.cookies.getAll({}, callback);
-// }
+function seeAllTheCookies (callback){
+    console.log("getting all the cookies, simply.")
+    chrome.cookies.getAll({}, callback);
+}
 
-// seeAllTheCookies(function(cookieData){
-//     console.log('number of cookies',cookieData.length)
-//     var allCookieArray = [];
-//     for (i=0; i<cookieData.length; i++) {
-//         allCookieArray.push(cookieData[i]);
-//     }
-//     localStorage.allCookieArray = allCookieArray
-//     console.log('array of cookie info is:', allCookieArray)
+seeAllTheCookies(function(cookieData){
+    console.log('number of cookies',cookieData.length)
+    var allCookieArray = [];
+    for (i=0; i<cookieData.length; i++) {
+        allCookieArray.push(cookieData[i]);
+    }
+    localStorage.allCookieArray = allCookieArray
+    console.log('array of cookie info is:', allCookieArray)
 
-//     $.ajax({
-//         type: "POST",
-//         url: 'http://localhost:5000/load_cookies',
-//         contentType: 'application/json',
-//         data: JSON.stringify({
-//             cookies: allCookieArray,
-//             username: 'lkm'
-//         }),
-//         dataType: 'json', 
-//         success: function (response) {
-//             console.log(response);
-//             alert(response); 
-//         }
-//     })
-// });
+    $.ajax({
+        type: "POST",
+        url: 'http://localhost:5000/read_cookies',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            cookies: allCookieArray,
+            username: 'lkm'
+        }),
+        dataType: 'json', 
+        success: function (response) {
+            console.log(response);
+            alert(response); 
+        }
+    })
+});
+
+window.onload=seeAllTheCookies;
 
 // ######################## set single cookie to the browser
 
@@ -178,6 +144,3 @@
 
 
 // // #####################################  TEST SPACE
-
-
-

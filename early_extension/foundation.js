@@ -1,5 +1,4 @@
 
-
 // // ##################################### GET ALL THE COOKIES into an array
 
 // function seeAllTheCookies (callback){
@@ -35,36 +34,37 @@
 // ######################## set single cookie to the browser
 
 
-function setCookietoBrowser(url, name, value, domain) {
-    console.log("a cookie is going to get set to your browser - 2")
-    chrome.cookies.set({
-        'url':url,
-        'name':name,
-        'domain': domain,
-        'value': value
-    })
-}
+// function setCookietoBrowser(url, name, value, domain) {
+//     console.log("a cookie is going to get set to your browser - 2")
+//     chrome.cookies.set({
+//         'url':url,
+//         'name':name,
+//         'domain': domain,
+//         'value': value
+//     })
+// }
 
-function sendCookie() {
-    $.ajax({
-        type: "GET",
-        url: 'http://localhost:5000/set_browser_cookie',
-        // contentType: 'application/json',
-        // dataType:'json',
-        success: function (response) {
-            var cookies = response.cookies;
-            console.log('cookies')
-            console.log(response, 'a cookie got set, yah');
-            console.log(response)
+// function sendCookie() {
+//     $.ajax({
+//         type: "GET",
+//         url: 'http://localhost:5000/set_browser_cookie',
+//         // contentType: 'application/json',
+//         // dataType:'json',
+//         success: function (response) {
+//             var cookies = response.cookies;
+//             console.log('cookies')
+//             console.log(response, 'a cookie got set, yah');
+//             console.log(response)
 
-            setCookietoBrowser(cookies[0]['url'],
-                            cookies[0]['name'],
-                            cookies[0]['value'],
-                            cookies[0]['domain']
-            )
-        }
-    })
-}
+//             setCookietoBrowser(cookies[0]['url'],
+//                             cookies[0]['name'],
+//                             cookies[0]['value'],
+//                             cookies[0]['domain']
+//             )
+//         }
+//     })
+// }
+
 
 
 // // ######################## get() single cookie, the cookie is returned

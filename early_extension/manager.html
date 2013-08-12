@@ -30,6 +30,13 @@
             background-color: #708090;
         }
 
+        #summary_table{
+            text-align: left;
+            font-size: 15px;
+            font-family: "Trebuchet MS", Helvetica, sans-serif;
+            color: #708090;
+        }
+
         </style>
     </head>
 
@@ -41,19 +48,56 @@
 
         <div id='manager_content'>
             Cookie manager: let's swap some cookies. </br>
-            Want to start swapping?</br><a href='/login'>swap now plz</a></br></br>
+            Want to start swapping?</br></br>
 
-            <em>Here are 15 cookies from you current session.</em></br>
-        </div>        
-        <table id="summary_table" border="1">
-            <tr>
-                <th><em>count</em></th>
-                <th><em>source</em></th>
-                <th><em>name</em></th>
-                <th><em>value</em></th>
-            </tr>
+            <form action="/swap.html" method="GET" name= "swap">
+
+                Enter a domain for cookies that you want to swap:
             
-        </table>
+                <input type=text size=15 name=domain id="relevant_domain" />
+                <input type="submit" value="see cookies now" input id="swap_btn" />
+            </form>
+        </div>
+
+        <div>
+                Want to send all your cookies to the database?
+                <input type="submit" value="send cookies" input id="send_btn" /></br>
+                This actually means trade all the cookies that are whitelisted for trading.</br></br>
+        </div>        
+        <div>
+            <em>Here are 15 cookies from you current session:</em></br></br>
+            <table id="summary_table" border="1">
+                <tr>
+                    <th><em>count</em></th>
+                    <th><em>source</em></th>
+                    <th><em>name</em></th>
+                    <th><em>value</em></th>
+                </tr>
+                
+            </table>
+        </div>
+
+
+    <script type="text/javascript">
+        console.log('send cookies to database');
+        $("#send_btn").click(function() {
+        sendAlltheCookies();
+    });
+    </script>
+
+
+    <script type="text/javascript">
+        console.log('getting cookies for specified domain');
+        $("#swap_btn").click(function() {
+        sendAlltheCookies();
+    });
+    </script>
+
+    <script src="jquery.min.js"></script>
+    <script src="/static/js/library.js"></script>
+    <script src="/static/js/pop.js"></script>
+
+
        
 		<script src="jquery.min.js"></script>
   		<script src="ext_backbone.js"></script>

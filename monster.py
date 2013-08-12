@@ -126,8 +126,13 @@ def sign_up():
 
 ################ start cookie management ###############
 
-@app.route('/read_cookies', methods=['POST'])
-def read_cookies():
+
+# LOAD_COOKIES IS ONLY GETTING USED TO LOAD COOKIES INTO THE DATABASE RIGHT NOW
+### LOAD_COOKIES can parse upload when the conditional statement is running.
+#######  validate data in models.py	
+
+@app.route('/load_cookies', methods=['POST'])
+def load_cookies():
 	content = request.get_json()
 		# content is a DICTIONARY!
 
@@ -136,14 +141,18 @@ def read_cookies():
 		values = c.values()
 		# keys and values are LISTS
 
-		if values[0] == 'www.'+ request.form['requested_domain']:
-			cookie_object = Cookie()
-			cookie_object.set_cookie_from_browser(c)
-		        session.add(cookie_object)
-			session.commit()
+		# if values[0] == 'www.'+ request.form['requested_domain']:
+		cookie_object = Cookie()
+		cookie_object.set_cookie_from_browser(c)
+	        session.add(cookie_object)
+		session.commit()
 
 	# return jsonify(content)
-	return redirect("/show_cookies.html")
+	# return redirect("/show_cookies.html")
+	return "confirmed, cookies loaded."
+
+# LOAD_COOKIES IS USED TO LOAD COOKIES INTO THE DATABASE RIGHT NOW
+
 
 
 @app.route('/welcome', methods=['GET', 'POST'])

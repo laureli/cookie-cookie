@@ -59,5 +59,4 @@ class Cookie(Base):
 		self.path = c['path']
 		self.http = c['httpOnly']
 		self.secure = c['secure']
-  		print 'the domain is', c['domain']
 

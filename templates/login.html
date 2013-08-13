@@ -19,17 +19,19 @@
     <h3 id="login_label"> User Login </h3>
     <table>
         <tr>
-        <th>username here </th>
+        <th>email here </th>
         <th> password here</th>
         </tr>
 
-        <th>{{form.username.description}}</th>
+        <th>{{form.email.description}}</th>
         <th>{{form.password.description}}</th>
         
         <tr>
-            <td>{{render_field(form.username)}}</td>
+            <td>{{render_field(form.email)}}</td>
             <td>{{render_field(form.password)}}</td>
-        </tr> 
+        </tr>    
+        <p> remember me: {{form.remember_me}}</p></br>
+        <input type="submit" value="sign in" input id="sign_in" /></br>
 </form>
         <p>
         </p>

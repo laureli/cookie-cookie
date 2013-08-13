@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div id="user_summary">
+
+        welcome to your home page, USER NAME.</br>
+        here i can show your history of swaps.</br>
+        or i can use jinja if statement and a DB query to tell you to start swapping.</br>
+    </div>
+
+    <div id= "">
+
+    </div>
+
+        <form action="/search" method="GET" name= "home">
+
+        <p>enter a domain please:</p></br>
+            <input type=text size=15 name=domain id="relevant_domain">
+            </input>
+            
+            <span id=result> </span> </br>
+            <input id="sbtn" type="submit" /> 
+        </form>
+    </div>
+
+        <script type="text/javascript">
+            console.log('really guys?');
+            $("#sbtn").click(function() {
+            getSelectedDomain();
+        });
+        </script>
+
+    <script src="static/js/jquery.min.js"></script>
+    <script src="/static/js/library.js"></script>
+{% endblock %}

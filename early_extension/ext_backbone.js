@@ -59,10 +59,6 @@ var cookieCallback = function (cookieData) {
     })
 }
 
-function kyle() {}
-
-var kyle = function () {};
-
 sendAlltheCookies(cookieCallback);
 
 console.log('send cookies to database');

@@ -4,7 +4,6 @@ import model
 
 class LoginForm(Form):
     email = TextField('Email', [validators.Email(message= (u'Invalid email address'))])
-    username = TextField('Username', [validators.Email(message= (u'Invalid username address'))])
     password = PasswordField('Password', [validators.Required(), validators.length(min=6, max=25)])
     remember_me = BooleanField('remember_me', default = False)
 

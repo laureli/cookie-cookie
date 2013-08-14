@@ -29,35 +29,35 @@ seeAllTheCookies(function(cookieData) {
 // ################################## all the cookies are getting loaded 
 // from the button on manager.html.
 
-function sendAlltheCookies(callback) {
-    chrome.cookies.getAll({}, callback);
-    console.log("mandar galletas por que me ama.");
-}
+// function sendAlltheCookies(callback) {
+//     chrome.cookies.getAll({}, callback);
+//     console.log("mandar galletas por que me ama.");
+// }
 
-var cookieCallback = function (cookieData) {
-    console.log('number of cookies',cookieData.length)
-    var sendCookieArray = [];
-    for (i=0; i<cookieData.length; i++) {
-        sendCookieArray.push(cookieData[i]);
-    }
-    localStorage.sendCookieArray = sendCookieArray;
-    console.log('array of cookie info is:', sendCookieArray)
+// var cookieCallback = function (cookieData) {
+//     console.log('number of cookies',cookieData.length)
+//     var sendCookieArray = [];
+//     for (i=0; i<cookieData.length; i++) {
+//         sendCookieArray.push(cookieData[i]);
+//     }
+//     localStorage.sendCookieArray = sendCookieArray;
+//     console.log('array of cookie info is:', sendCookieArray)
 
-    $.ajax({
-        type: "POST",
-        url: 'http://localhost:5000/load_cookies',
-        contentType: 'application/json',
-        data: JSON.stringify({
-            cookies: sendCookieArray,
-            username: 'test'
-        }),
-        dataType: 'json', 
-        success: function (response) {
-            console.log(response);
-            // alert(response); 
-        }
-    })
-}
+//     $.ajax({
+//         type: "POST",
+//         url: 'http://localhost:5000/load_cookies',
+//         contentType: 'application/json',
+//         data: JSON.stringify({
+//             cookies: sendCookieArray,
+//             username: 'test'
+//         }),
+//         dataType: 'json', 
+//         success: function (response) {
+//             console.log(response);
+//             // alert(response); 
+//         }
+//     })
+// }
 
 sendAlltheCookies(cookieCallback);
 

@@ -53,7 +53,9 @@ class Cookie(Base):
 
 	def add_cookie_from_browser(self, c): # class instantiated @ monster.py
 	  # include IF statements for data validation here
-		self.user_id = user.get_id()
+	  
+		# self.user_id = user.get_id()
+# the above line breaks things when login is not implemented.
 		self.name = c['name']
 		self.value = c['value']
 		self.domain = c['domain']

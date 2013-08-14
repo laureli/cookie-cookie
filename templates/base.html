@@ -48,11 +48,14 @@
 				    <h2 id="header">cookiemxr:</h2>
 				{% endif %}
 		</div>
-		<div>
-			cookiemxr: <a href="/index">mxr home</a>
-		</div>
-		<hr>
-		{% block content %}{% endblock %}
+        <div>
+            cookiemxr: <a href="/">mxr home</a> | 
+            home: <a href="/home"> your stats</a> |
+            general stats: <a href="/stats"> swap stats</a> |
+            leave: <a href="/logout"> logout</a>
+        </div>
+        <hr>
+        {% block content %}{% endblock %}
 
 	</body>
 </html>

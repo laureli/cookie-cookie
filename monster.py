@@ -235,6 +235,12 @@ def call_cookies():
 ################ start app, websockets, infrastructure ###############
 
 
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('page_not_found.html', 
+    	header='404 error'), 404
+
+
 if __name__ == "__main__":
 	# http_server = WSGIServer(('',5000), app, handler_class=WebSocketHandler)
 	# http_server.serve_forever()

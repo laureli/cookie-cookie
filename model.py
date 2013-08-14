@@ -51,8 +51,9 @@ class Cookie(Base):
 	secure = Column(Boolean())
 
 
-	def add_cookie_from_browser(self, c): # class instantiated @ monster.py
+	def add_cookie_from_browser(self, c, user): # class instantiated @ monster.py
 	  # include IF statements for data validation here
+	  	self.user_id = user.get_id()
 		self.name = c['name']
 		self.value = c['value']
 		self.domain = c['domain']

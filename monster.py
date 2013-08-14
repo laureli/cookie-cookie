@@ -1,15 +1,14 @@
 import os
 import json
-from flask import Flask, render_template, send_from_directory, request, redirect, jsonify, g
+from flask import Flask, render_template, send_from_directory, request, redirect, jsonify, g, flash, url_for, abort
 from flask.ext.login import LoginManager, login_user, logout_user, current_user, login_required
 from geventwebsocket.handler import WebSocketHandler
 from gevent.pywsgi import WSGIServer
 
-import model
 from model import Cookie, User, session
 from forms import LoginForm
 
-# DB config information
+# DB config information  ## postgres address: "postgresql://mixerapp:mixerapp@localhost:5432/mixer"
 DATABASE = '/tmp/mixerapp.db' 
 DEBUG = True
 SECRET_KEY = 'development key'
@@ -48,7 +47,7 @@ lm.login_view = 'login'
 
 @lm.user_loader
 def load_user(id):
-    return model.session.query(model.User).get(int(id))
+    return session.query(User).get(int(id))
 
 @app.before_request
 def before_request():
@@ -70,7 +69,7 @@ def login():
     form = LoginForm()  
     if form.validate_on_submit():
 
-        user= model.session.query(model.User).filter_by(email=form.email.data, password=form.password.data).first()
+        user= session.query(User).filter_by(email=form.email.data, password=form.password.data).first()
     
         if user is not None:
             login_user(user)
@@ -78,20 +77,30 @@ def login():
         else:
             flash("Invalid login")
 
-        return redirect(request.args.get("next") or url_for('user'))
-        
+        return redirect(url_for('home'))
     
     return render_template('login.html',
-                            title='Sign In',
+                            header='Sign In',
                             form=form)
 
 
 @app.route('/logout')
 @login_required
 def logout():
-    logout_user()
-# REDIRECT BACK TO THE SPLASH PAGE
+    # logout_user()
+# use ln 92 instead of 90 to get more control over login process
+    session.pop('email', None) 
     return redirect(url_for('/index'))
+
+
+@app.route('/home', methods=['GET', 'POST']) # index!
+def home():
+	# splash page for not-logged in users arriving not from extension
+	# send to _login_ if you are a returning user
+	# send to _sign up_ for new users
+	return render_template('home.html',
+		title='home')
+
 
 ############### end login / logout ###############
 

@@ -105,15 +105,18 @@ def home():
 ############### end login / logout ###############
 
 
-############### start managing users ###############
+############### start managing users on website ###############
 
+
+# @app.route('/') # index!
+# def index_redir():
+# 	return redirect(url_for('login'))
 
 @app.route('/') # index!
-def index():
-	# splash page for not-logged in users arriving not from extension
-	# send to _login_ if you are a returning user
-	# send to _sign up_ for new users
+def index_redir():
 	return render_template('index.html')
+
+
 
 # this does math on the index
 @app.route('/_add_numbers')
@@ -129,8 +132,12 @@ def sign_up():
 	return "new user, put your information here in html"
 	# new user sign up here
 
+@app.route('/stats')
+def stats():
+	return render_template('stats.html',
+		header = 'stats')
 
-################ end managing users ###############
+################ end managing users on website ###############
 
 
 ################ start cookie management ###############

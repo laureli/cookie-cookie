@@ -117,16 +117,6 @@ def index_redir():
 	return render_template('index.html')
 
 
-
-# this does math on the index
-@app.route('/_add_numbers')
-def add_numbers():
-    a = request.args.get('a', 0, type=int)
-    b = request.args.get('b', 0, type=int)
-    c = request.args.get('c', 0, type=int)
-    return jsonify(result=a * b + c)
-
-
 @app.route('/signup')
 def sign_up():
 	return "new user, put your information here in html"
@@ -137,10 +127,18 @@ def stats():
 	return render_template('stats.html',
 		header = 'stats')
 
+
+@app.route('/welcome', methods=['GET', 'POST'])
+def welcome():
+	return render_template("welcome.html",
+		header = 'welcome'
+		)
+
+
 ################ end managing users on website ###############
 
 
-################ start cookie management ###############
+################ start managing extension ###############
 
 
 # LOAD_COOKIES IS ONLY GETTING USED TO LOAD COOKIES INTO THE DATABASE RIGHT NOW
@@ -167,15 +165,21 @@ def load_cookies():
 	# return redirect("/show_cookies.html")
 	return "confirmed, cookies loaded."
 
-# LOAD_COOKIES IS USED TO LOAD COOKIES INTO THE DATABASE RIGHT NOW
+
+# SHOW COOKIES GETS COOKIES FROM DB AND DISPLAYS ON THE EXTENSION
+
+@app.route('/show_cookies')
+def show_cookies():
+	data = Cookie.query.all()
+	dbCookies = [d.__dict__ for d in data]
+
+	return json.dumps(jsonify(dbCookies=dbCookies))
+
+
+################ stop managing extension ###############
 
 
 
-@app.route('/welcome', methods=['GET', 'POST'])
-def welcome():
-	return render_template("welcome.html",
-		header = 'welcome'
-		)
 
 
 @app.route('/search')
@@ -205,11 +209,6 @@ def call_cookies():
 	# call cookies here
 	return render_template("call_cookies.html")
 
-
-@app.route('/show_cookies')
-def show_cookies():
-	# show cookies that are called above.
-	return render_template("show_cookies.html")
 
 
 ################ stop cookie management ###############

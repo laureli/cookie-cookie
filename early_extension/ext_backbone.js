@@ -1,6 +1,5 @@
 
 function seeAllTheCookies (callback){
-    console.log("getting all the cookies, b/c i love you.")
     chrome.cookies.getAll({}, callback);
 }
 
@@ -23,6 +22,9 @@ seeAllTheCookies(function(cookieData) {
 
 // #################### display cookies on the extension ###########
 
+
+// grabCookies(viewCookies);
+
 function grabCookies(callback) {
     $.ajax({
         type: "POST",
@@ -35,8 +37,6 @@ function grabCookies(callback) {
         }
     })
 }
-
-// grabCookies(viewCookies);
 
 function viewCookies(data) {
     console.log('number of cookies', data.dbCookies.length)

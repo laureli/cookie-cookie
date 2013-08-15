@@ -1,26 +1,22 @@
 <html>
     <head>
-
         <style>
         #about {
             color: blue;
             font-family: Arial;
             text-align: center;
         }
-
         body {
             color: #708090;
             font-family: "Trebuchet MS", Helvetica, sans-serif;
             /*font-weight: bold;*/
 
         }
-
         #kitten {
             border:15px dotted #FFD700;
             margin-right: auto;
             margin-left: auto;
         }
-
         #header{
             text-align: center;
             font-size: 35px;
@@ -29,14 +25,12 @@
             color: #FFD700;
             background-color: #708090;
         }
-
         #summary_table{
             text-align: left;
             font-size: 15px;
             font-family: "Trebuchet MS", Helvetica, sans-serif;
             color: #708090;
         }
-
         </style>
     </head>
 
@@ -44,9 +38,9 @@
 
 <!--          <a href="/"><img id="kitten" src="http://placekitten.com/g/800/200"></a>
  -->
-         <h1 id ='header'>welcome to cookiemxr</h1>
+     <h1 id ='header'>welcome to cookiemxr</h1>
 
-        <div id='manager_content'>
+        <div>
             Cookie manager: let's swap some cookies. </br>
             Want to start swapping?</br></br>
 
@@ -55,15 +49,16 @@
                 Enter a domain for cookies that you want to swap:
             
                 <input type=text size=15 name=domain id="relevant_domain" />
-                <input type="submit" value="see cookies now" input id="swap_btn" />
+                <input type="submit" value="see cookies now" id="swap_btn" />
             </form>
         </div>
 
         <div>
                 Want to send all your cookies to the database?
-                <input type="submit" value="send cookies" input id="send_btn" /></br>
+                <input type="submit" value="send cookies" id="send_btn" /></br>
                 This actually means trade all the cookies that are whitelisted for trading.</br></br>
         </div>        
+
         <div>
             <em>Here are 15 cookies from you current session:</em></br></br>
             <table id="summary_table" border="1">
@@ -77,17 +72,23 @@
             </table>
         </div>
 
+    <script src="jquery.min.js"></script>
+    <script src="ext_backbone.js"></script>
 
     <script>
         console.log('send cookies to database');
         $("#send_btn").click(function() {
             console.log('send cookies to database');
-            sendAlltheCookies();
+            sendAlltheCookies(cookieCallback);
+        });
+
+        console.log('getting cookies from DB and displaying in app');
+        $("#swap_btn").click(function() {
+            console.log('grab cookies from database');
+            grabCookies(viewCookies);
         });
     </script>
 
-		<script src="jquery.min.js"></script>
-  		<script src="ext_backbone.js"></script>
 
 	</body>
 

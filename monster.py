@@ -6,7 +6,7 @@ from geventwebsocket.handler import WebSocketHandler
 from gevent.pywsgi import WSGIServer
 
 from model import Cookie, User, session
-from forms import LoginForm
+from forms import LoginForm, SignupForm
 
 # DB config information  ## postgres address: "postgresql://mixerapp:mixerapp@localhost:5432/mixer"
 DATABASE = '/tmp/mixerapp.db' 
@@ -19,6 +19,7 @@ PASSWORD = 'default'
 # application
 app = Flask(__name__)
 app.config.from_object(__name__)
+
 
 ############### start websocket settings ###############
 
@@ -64,7 +65,7 @@ def before_request():
 def login():
     # if user hasn't logged out redirect don't reload login page
     if current_user is not None and current_user.is_authenticated():
-        return redirect(url_for('user'))
+        return redirect(url_for('home'))
 
     form = LoginForm()  
     if form.validate_on_submit():
@@ -87,19 +88,29 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
-    # logout_user()
+    logout_user()
 # use ln 92 instead of 90 to get more control over login process
-    session.pop('email', None) 
-    return redirect(url_for('/index'))
+    # session.pop('email', None) 
+    return redirect('/index.html')
 
 
 @app.route('/home', methods=['GET', 'POST']) # index!
+@login_required
 def home():
-	# splash page for not-logged in users arriving not from extension
+	# splash page for logged in users
 	# send to _login_ if you are a returning user
 	# send to _sign up_ for new users
-	return render_template('home.html',
-		title='home')
+	if 'email' not in session:
+		return redirect(url_for('signin'))
+
+	user = User.query.filter_by(email=session['email']).first()
+
+	if user is None:
+		return redirect(url_for('signin'))
+	else:
+		return render_template('home.html', 
+								title='home')
+
 
 
 ############### end login / logout ###############
@@ -117,10 +128,26 @@ def index_redir():
 	return render_template('index.html')
 
 
-@app.route('/signup')
-def sign_up():
-	return "new user, put your information here in html"
-	# new user sign up here
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+	form = SignupForm
+
+	if request.method=='POST':
+		if form.validate()==False:
+			return render_template('signup.html', form=form)
+		else:
+			newuser = User(form.username.data, form.email.data, form.password.data)
+
+			session.add(newuser)
+			session.commit()
+
+			session['email'] = newuser.email
+			return redirect(url_for('home'))
+
+	elif request.method =='GET':
+		return render_template('signup.html', form=form)
+
+
 
 @app.route('/stats')
 def stats():
@@ -129,6 +156,7 @@ def stats():
 
 
 @app.route('/welcome', methods=['GET', 'POST'])
+@login_required
 def welcome():
 	return render_template("welcome.html",
 		header = 'welcome'
@@ -158,7 +186,7 @@ def load_cookies():
 		# if values[0] == 'www.'+ request.form['requested_domain']:
 		cookie_object = Cookie()
 		cookie_object.add_cookie_from_browser(c)
-	        session.add(cookie_object)
+		session.add(cookie_object)
 		session.commit()
 
 	return "confirmed, cookies loaded."

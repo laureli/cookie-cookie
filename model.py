@@ -41,7 +41,7 @@ class User(Base):
 class Cookie(Base):
 	__tablename__="cookies"
 	id = Column(Integer, primary_key=True)
-	user_id = Column(Integer)
+	user_id = Column(Integer, ForeignKey(User.id))
 	name = Column(String(100)) 
 	value = Column(String(2000))
 	domain = Column(String(254))

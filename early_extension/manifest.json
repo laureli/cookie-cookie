@@ -24,7 +24,8 @@
 		],
 	"browser_action":{
 		"name":"clicking initiates the cookie swap"
-			, "default_popup":"popup.html"  
+		, "default_popup":"popup.html"  
+
 			// if there is a default popup then it takes priority?
 				// use the popup as a navigation pane later.
 	},

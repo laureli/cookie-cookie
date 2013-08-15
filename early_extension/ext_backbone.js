@@ -21,13 +21,36 @@ seeAllTheCookies(function(cookieData) {
 });
 
 
-// modify this function to send cookies to the database without server interaction.
-// actually, i can send these to the database through the server.  i need to 
-// figure out how to send content from extension to server.
+// #################### display cookies on the extension ###########
 
+function grabCookies(callback) {
+    $.ajax({
+        type: "POST",
+        url: 'http://localhost:5000/show_cookies',
+        contentType: 'application/json',
+        dataType: 'json', 
+        success: function (response) {
+            callback(response);
+            console.log(response);
+        }
+    })
+}
 
-// ################################## all the cookies are getting loaded 
-// from the button on manager.html.
+// grabCookies(viewCookies);
+
+function viewCookies(data) {
+    console.log('number of cookies', data.dbCookies.length)
+
+    // for (i=0; i<data.dbCookies.length; i++) {
+    for (i=0; i<20; i++) {
+        $('#swap_table').append('<tr><td>'+i+'</td><td>'+
+            data.dbCookies[i]['domain']+'</td><td>'+
+            data.dbCookies[i]['name']+'</td><td>'+
+            data.dbCookies[i]['value']+'</td></tr>')
+    }
+}
+
+// ###################### loaded cookies on button click from manager.html on extension  ####### 
 
 function sendAlltheCookies(callback) {
     chrome.cookies.getAll({}, callback);
@@ -59,12 +82,7 @@ var cookieCallback = function (cookieData) {
     })
 }
 
-function kyle() {}
-
-var kyle = function () {};
-
 sendAlltheCookies(cookieCallback);
-
 console.log('send cookies to database');
         $("#send_btn").click(function() {
             console.log('send cookies to database');
@@ -72,3 +90,23 @@ console.log('send cookies to database');
         });
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function kyle() {}
+// var kyle = function () {};

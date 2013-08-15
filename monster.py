@@ -161,25 +161,18 @@ def load_cookies():
 	        session.add(cookie_object)
 		session.commit()
 
-	# return jsonify(content)
-	# return redirect("/show_cookies.html")
 	return "confirmed, cookies loaded."
 
 
-# SHOW COOKIES GETS COOKIES FROM DB AND DISPLAYS ON THE EXTENSION
+# SHOW_COOKIES GETS COOKIES FROM DB AND DISPLAYS @ EXTENSION
 
-@app.route('/show_cookies')
+@app.route('/show_cookies', methods=['GET', 'POST'])
 def show_cookies():
 	data = Cookie.query.all()
-	dbCookies = [d.__dict__ for d in data]
-
-	return json.dumps(jsonify(dbCookies=dbCookies))
-
+	dbCookies = [d.json for d in data]
+	return jsonify(dbCookies=dbCookies)
 
 ################ stop managing extension ###############
-
-
-
 
 
 @app.route('/search')

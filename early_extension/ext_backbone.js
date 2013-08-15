@@ -81,15 +81,6 @@ var cookieCallback = function (cookieData) {
     })
 }
 
-sendAlltheCookies(cookieCallback);
-// console.log('send cookies to database');
-//         $("#send_btn").click(function() {
-//             console.log('send cookies to database');
-//             sendAlltheCookies(cookieCallback);
-//         });
-
-
-
 
 
 

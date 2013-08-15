@@ -1,7 +1,7 @@
 /* extensions for fun */
 
 {
-	"name": "A cookiemxr: starts a cookie swap when clicked",
+	"name": "A cookiehuntr: starts a cookie swap when clicked",
 	"version": "0.0.1",
 	"background":{
 		"scripts": [
@@ -23,8 +23,8 @@
 	    "http://*/*"
 		],
 	"browser_action":{
-		"name":"clicking initiates the cookie swap"
-		, "default_popup":"popup.html"  
+		"name":"clicking initiates the cookie swap", 
+		"default_popup":"popup.html"  
 
 			// if there is a default popup then it takes priority?
 				// use the popup as a navigation pane later.

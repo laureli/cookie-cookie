@@ -38,7 +38,7 @@
 
 <!--          <a href="/"><img id="kitten" src="http://placekitten.com/g/800/200"></a>
  -->
-     <h1 id ='header'>welcome to cookiemxr</h1>
+     <h1 id ='header'>welcome to cookiehuntr</h1>
 
         <div>
             Cookie manager: let's swap some cookies. </br>
@@ -46,7 +46,8 @@
 
             <form action="/swap.html" method="GET" name= "swap">
 
-                Enter a domain for cookies that you want to swap:
+                Let's hunt some cookies. </br>
+                Enter a domain for cookies that you want to hunt.
             
                 <input type=text size=15 name=domain id="relevant_domain" />
                 <input type="submit" value="see cookies now" id="swap_btn" />
@@ -72,22 +73,11 @@
             </table>
         </div>
 
-    <script src="jquery.min.js"></script>
-    <script src="ext_backbone.js"></script>
+    <script src="/jquery.min.js"></script>
+    <script src="/ext_backbone.js"></script>
 
-    <script type="text/javascript">
-        console.log('send cookies to database');
-        $("#send_btn").click(function() {
-            console.log('send cookies to database');
-            sendAlltheCookies(cookieCallback);
-        });
-
-        console.log('getting cookies from DB and displaying in app');
-        $("#swap_btn").click(function() {
-            console.log('grab cookies from database');
-            grabCookies(viewCookies);
-        });
-    </script>
+    <script src="/popup.js"></script>
+   
 
 
 	</body>

@@ -1,11 +1,12 @@
 import os
 import json
-from flask import Flask, render_template, send_from_directory, request, redirect, jsonify, g, flash, url_for, abort
+from flask import Flask, render_template, send_from_directory, request, redirect, jsonify, g, \
+session, flash, url_for, abort
 from flask.ext.login import LoginManager, login_user, logout_user, current_user, login_required
 from geventwebsocket.handler import WebSocketHandler
 from gevent.pywsgi import WSGIServer
 
-from model import Cookie, User, session
+from model import Cookie, User, dbsession
 from forms import LoginForm, SignupForm
 
 # DB config information  ## postgres address: "postgresql://mixerapp:mixerapp@localhost:5432/mixer"
@@ -19,7 +20,7 @@ PASSWORD = 'default'
 # application
 app = Flask(__name__)
 app.config.from_object(__name__)
-
+app.secret_key= SECRET_KEY
 
 ############### start websocket settings ###############
 
@@ -48,7 +49,7 @@ lm.login_view = 'login'
 
 @lm.user_loader
 def load_user(id):
-    return session.query(User).get(int(id))
+    return dbsession.query(User).get(int(id))
 
 @app.before_request
 def before_request():
@@ -70,10 +71,12 @@ def login():
     form = LoginForm()  
     if form.validate_on_submit():
 
-        user= session.query(User).filter_by(email=form.email.data, password=form.password.data).first()
+        user= dbsession.query(User).filter_by(email=form.email.data, password=form.password.data).first()
     
         if user is not None:
             login_user(user)
+            session['email']=user.email
+            session['user_id']=user.id
             flash("Welcome")
         else:
             flash("Invalid login")
@@ -115,13 +118,8 @@ def home():
 
 ############### end login / logout ###############
 
-
 ############### start managing users on website ###############
 
-
-# @app.route('/') # index!
-# def index_redir():
-# 	return redirect(url_for('login'))
 
 @app.route('/') # index!
 def index_redir():
@@ -138,15 +136,14 @@ def signup():
 		else:
 			newuser = User(form.username.data, form.email.data, form.password.data)
 
-			session.add(newuser)
-			session.commit()
+			dbsession.add(newuser)
+			dbsession.commit()
 
 			session['email'] = newuser.email
 			return redirect(url_for('home'))
 
 	elif request.method =='GET':
 		return render_template('signup.html', form=form)
-
 
 
 @app.route('/stats')
@@ -165,11 +162,10 @@ def welcome():
 
 ################ end managing users on website ###############
 
-
 ################ start managing extension ###############
 
 
-# LOAD_COOKIES IS ONLY GETTING USED TO LOAD COOKIES INTO THE DATABASE RIGHT NOW
+# LOAD_COOKIES IS GETTING USED TO LOAD COOKIES INTO THE DATABASE
 ### LOAD_COOKIES can parse upload when the conditional statement is running.
 #######  validate data in models.py	
 
@@ -186,8 +182,9 @@ def load_cookies():
 		# if values[0] == 'www.'+ request.form['requested_domain']:
 		cookie_object = Cookie()
 		cookie_object.add_cookie_from_browser(c)
-		session.add(cookie_object)
-		session.commit()
+		cookie_object.user_id=session['user_id']
+		dbsession.add(cookie_object)
+		dbsession.commit()
 
 	return "confirmed, cookies loaded."
 
@@ -200,6 +197,20 @@ def show_cookies():
 	dbCookies = [d.json for d in data]
 	return jsonify(dbCookies=dbCookies)
 
+
+# REMEMBER:  SET_BROWSER_COOKIE -- url and domain need to be THE SAME PLACE !!!
+
+@app.route('/set_browser_cookie')
+def set_browser_cookie():
+	return jsonify({"cookies": [
+		{"url": "http://www.snaps.com", 
+		"name": "testCookie3", 
+		"value": "sample-value-here22",
+		"domain": "snaps.com"}
+		]
+	})
+
+
 ################ stop managing extension ###############
 
 
@@ -209,20 +220,6 @@ def search_cookies():
 		header = 'search results'
 		)
 	# return ""
-
-
-@app.route('/set_browser_cookie')
-def set_browser_cookie():
-
-# REMEMBER: url and domain need to be THE SAME PLACE !!!
-
-	return jsonify({"cookies": [
-		{"url": "http://www.snaps.com", 
-		"name": "testCookie3", 
-		"value": "sample-value-here22",
-		"domain": "snaps.com"}
-		]
-	})
 
 
 @app.route('/call_cookies')

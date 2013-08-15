@@ -9,12 +9,12 @@ from sqlalchemy.orm import relationship, backref
 
 
 engine = create_engine("postgresql://mixerapp:mixerapp@localhost:5432/mixer", echo=False)
-session = scoped_session(sessionmaker(bind=engine,
+dbsession = scoped_session(sessionmaker(bind=engine,
                                 autocommit=False,
                                 autoflush=False))
 
 Base = declarative_base()
-Base.query = session.query_property()
+Base.query = dbsession.query_property()
 
 class User(Base):
 	__tablename__="users"

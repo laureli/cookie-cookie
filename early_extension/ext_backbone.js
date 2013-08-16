@@ -28,11 +28,16 @@ function grabCookies(callback) {
     $.ajax({
         type: "POST",
         url: 'http://localhost:5000/show_cookies',
-        contentType: 'application/json',
-        dataType: 'json', 
+        // contentType: 'application/json',
+        // dataType: 'json', 
         success: function (response) {
+            alert(response.dbCookies[0].name);
             callback(response);
             console.log(response);
+        },
+        error: function (response) {
+            alert(response)
+            alert('the server is taking a time out. please call back later.');
         }
     })
 }
@@ -42,11 +47,12 @@ function viewCookies(data) {
 
     // for (i=0; i<data.dbCookies.length; i++) {
     for (i=0; i<20; i++) {
-        $('#swap_table').append('<tr><td>'+i+'</td><td>'+
+        $('#summary_table').append('<tr><td>'+i+'</td><td>'+
             data.dbCookies[i]['domain']+'</td><td>'+
             data.dbCookies[i]['name']+'</td><td>'+
             data.dbCookies[i]['value']+'</td></tr>')
     }
+    alert('there was some appending')
 }
 
 // ###################### loaded cookies on button click from manager.html on extension  ####### 
@@ -77,6 +83,9 @@ var cookieCallback = function (cookieData) {
         success: function (response) {
             console.log(response);
             // alert(response); 
+        },
+        error: function (response) {
+            alert('your response sucked.')
         }
     })
 }

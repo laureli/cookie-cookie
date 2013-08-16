@@ -16,7 +16,7 @@
 
         <form action="/search" method="GET" name= "home">
 
-        <p>enter a domain please:</p></br>
+        <p>checkout cookies from a specific domain:</p></br>
             <input type=text size=15 name=domain id="relevant_domain">
             </input>
             
@@ -25,6 +25,9 @@
         </form>
     </div>
 
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/library.js"></script>
+
         <script type="text/javascript">
             console.log('really guys?');
             $("#sbtn").click(function() {
@@ -32,6 +35,5 @@
         });
         </script>
 
-    <script src="static/js/jquery.min.js"></script>
-    <script src="/static/js/library.js"></script>
+
 {% endblock %}

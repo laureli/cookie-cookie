@@ -5,6 +5,7 @@
 	"version": "0.0.1",
 	"background":{
 		"scripts": [
+			"popup.js",
 			"jquery.min.js",
 			"ext_backbone.js",
 			"background.js"
@@ -25,10 +26,8 @@
 	"browser_action":{
 		"name":"clicking initiates the cookie swap", 
 		"default_popup":"popup.html"  
-
-			// if there is a default popup then it takes priority?
-				// use the popup as a navigation pane later.
 	},
+	
 	"manifest_version":2
 
 }

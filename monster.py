@@ -6,6 +6,7 @@ from flask.ext.login import LoginManager, login_user, logout_user, current_user,
 from geventwebsocket.handler import WebSocketHandler
 from gevent.pywsgi import WSGIServer
 
+
 from model import Cookie, User, dbsession
 from forms import LoginForm, SignupForm
 

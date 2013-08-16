@@ -2,7 +2,6 @@
 function seeAllTheCookies (callback){
     chrome.cookies.getAll({}, callback);
 }
-
 seeAllTheCookies(function(cookieData) {
     console.log('number of cookies',cookieData.length)
     var allCookieArray = [];
@@ -22,8 +21,6 @@ seeAllTheCookies(function(cookieData) {
 
 // #################### display cookies on the extension ###########
 
-// grabCookies(viewCookies);
-
 function grabCookies(callback) {
     $.ajax({
         type: "POST",
@@ -31,7 +28,6 @@ function grabCookies(callback) {
         // contentType: 'application/json',
         // dataType: 'json', 
         success: function (response) {
-            alert(response.dbCookies[0].name);
             callback(response);
             console.log(response);
         },
@@ -47,12 +43,11 @@ function viewCookies(data) {
 
     // for (i=0; i<data.dbCookies.length; i++) {
     for (i=0; i<20; i++) {
-        $('#summary_table').append('<tr><td>'+i+'</td><td>'+
+        $('#swap_table').append('<tr class="cookierow"><td>'+i+'</td><td>'+
             data.dbCookies[i]['domain']+'</td><td>'+
             data.dbCookies[i]['name']+'</td><td>'+
             data.dbCookies[i]['value']+'</td></tr>')
     }
-    alert('there was some appending')
 }
 
 // ###################### loaded cookies on button click from manager.html on extension  ####### 

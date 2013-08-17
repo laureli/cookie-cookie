@@ -23,13 +23,21 @@
             font-family: "Trebuchet MS", Helvetica, sans-serif;
             /*font-weight: bold;*/
             color: #FFD700
-;            background-color: #708090;
+;           background-color: #708090;
         }
         #summary_table{
             text-align: left;
             font-size: 15px;
             font-family: "Trebuchet MS", Helvetica, sans-serif;
             color: #708090;
+        }
+        .cookierow{
+            background-color: white;
+
+        }
+        .cookierow_selected{
+            background-color: #FFD700;
+
         }
         </style>
     </head>
@@ -71,7 +79,7 @@
                 </tr>
                 
             </table>
-        </div>
+        </div> </br>
         <div>
             <em>Here are the cookies you can swap:</em></br></br>
             <table id="swap_table" border="1">
@@ -84,10 +92,14 @@
                 
             </table>
         </div>
+        <div>
+                <input type="button" value="get cookies" id="get_btn" /></br>
+        </div>
 
     <script src="/jquery.min.js"></script>
     <script src="/ext_backbone.js"></script>
     <script src="/popup.js"></script>
+
    
 	</body>
 

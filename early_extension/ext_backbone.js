@@ -10,8 +10,9 @@ seeAllTheCookies(function(cookieData) {
     }
     localStorage.allCookieArray = allCookieArray;
    
-    for (i=0; i<allCookieArray.length; i++) {
-            $('#summary_table').append('<tr><td>'+i+'</td><td>'+
+    // for (i=0; i<allCookieArray.length; i++) {
+    for (i=0; i<20; i++) {
+            $('#summary_table').append('<tr><td>'+(i+1)+'</td><td>'+
             allCookieArray[i]['domain']+'</td><td>'+
             allCookieArray[i]['name']+'</td><td>'+
             allCookieArray[i]['value']+'</td></tr>')
@@ -25,8 +26,6 @@ function grabCookies(callback) {
     $.ajax({
         type: "POST",
         url: 'http://localhost:5000/show_cookies',
-        // contentType: 'application/json',
-        // dataType: 'json', 
         success: function (response) {
             callback(response);
             console.log(response);
@@ -43,11 +42,14 @@ function viewCookies(data) {
 
     // for (i=0; i<data.dbCookies.length; i++) {
     for (i=0; i<20; i++) {
-        $('#swap_table').append('<tr class="cookierow"><td>'+i+'</td><td>'+
+        $('#swap_table').append('<tr class="cookierow"><td class="key">'+i+'</td><td>'+
             data.dbCookies[i]['domain']+'</td><td>'+
             data.dbCookies[i]['name']+'</td><td>'+
             data.dbCookies[i]['value']+'</td></tr>')
     }
+    $('.cookierow').click(function() {
+        $(this).toggleClass('cookierow_selected')
+    });
 }
 
 // ###################### loaded cookies on button click from manager.html on extension  ####### 

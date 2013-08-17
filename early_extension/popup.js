@@ -1,16 +1,22 @@
+var pickedCookies=['if','this','then','that']
 
-console.log('send cookies to database');
+// send cookies to the database
 $("#send_btn").click(function() {
    console.log('send cookies to database');
    sendAlltheCookies(cookieCallback);
+   alert('thanks for sending cookies to the database')
 });
 
-console.log('getting cookies from DB and displaying in app');
+
+// loads cookies from DB and populates table
 $("#swap_btn").click(function() {
-  alert('grab cookies from database');
   grabCookies(viewCookies);
 });
 
-$('.cookierow').click(function() {
-  $(this).attr('id')
-})
+// // button click installs cookies on browser
+$("#get_btn").click(function() {
+	$("#swap_table tr.cookierow_selected td.key").each(
+		function() { 
+		console.log(this.textContent);
+	})
+});  

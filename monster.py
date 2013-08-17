@@ -95,7 +95,7 @@ def logout():
     logout_user()
 # use ln 92 instead of 90 to get more control over login process
     # session.pop('email', None) 
-    return redirect('/index.html')
+    return redirect('/')
 
 
 @app.route('/home', methods=['GET', 'POST']) # index!
@@ -120,11 +120,6 @@ def home():
 ############### end login / logout ###############
 
 ############### start managing users on website ###############
-
-
-@app.route('/') # index!
-def index_redir():
-	return render_template('index.html')
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -214,6 +209,13 @@ def set_browser_cookie():
 
 ################ stop managing extension ###############
 
+################ start general navigation ###############
+
+
+@app.route('/') # index!
+def index_redir():
+	return render_template('index.html')
+
 
 @app.route('/search')
 def search_cookies():
@@ -230,22 +232,20 @@ def call_cookies():
 
 
 
-################ stop cookie management ###############
+################ stop general navigation ###############
 
 
 ################ start development & test section ###############
 
 
-# @app.route('/favicon.ico')
-# def favicon():
-#     return send_from_directory(os.path.join(app.root_path, 'static'),
-#                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
-
-# @app.route('/view_cookies', methods=['POST'], ['GET'])
-# def cookie_view():
-# 	return "show me the cookies on your computer, returning user!"
-	# existing user, see cookies there
+@app.route('/view_cookies')
+def cookie_view():
+	return render_template('aaaaaaa.html')
 
 
 ################ stop development and test section ###############
@@ -254,10 +254,10 @@ def call_cookies():
 ################ start app, websockets, infrastructure ###############
 
 
-@app.errorhandler(404)
-def page_not_found(error):
-    return render_template('page_not_found.html', 
-    	header='404 error'), 404
+# @app.errorhandler(404)
+# def page_not_found(error):
+#     return render_template('page_not_found.html', 
+#     	header='404 error'), 404
 
 
 if __name__ == "__main__":

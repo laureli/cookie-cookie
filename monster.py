@@ -70,13 +70,14 @@ def before_request():
 
 ############### start login / logout ###############
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=["GET", "POST"])
 def login():
     # if user hasn't logged out redirect don't reload login page
     if current_user is not None and current_user.is_authenticated():
         return redirect(url_for('home'))
 
     form = LoginForm()  
+    if form.validate_on_submit():
 
         user= dbsession.query(User).filter_by(email=form.email.data, password=form.password.data).first()
     
@@ -87,13 +88,14 @@ def login():
             session['username']=user.username
             flash("Welcome")
         else:
-            flash('Invalid login')
+            flash("Invalid login")
 
         return redirect(url_for('home'))
-
+    
     return render_template('login.html',
                             header='Sign In',
                             form=form)
+
 
 
 @app.route('/logout')
@@ -126,21 +128,6 @@ def home():
 
 ############### start managing users on website ###############
 
-<<<<<<< HEAD
-############### start managing users on website ###############
-
-@app.route('/')
-def redir():
-	return redirect(url_for('login'))
-
-@app.route('/index') # index!
-def index():
-	# splash page for not-logged in users arriving not from extension
-	# send to _login_ if you are a returning user
-	# send to _sign up_ for new users
-	return render_template('index.html')
-=======
-
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
 	form= SignupForm()
@@ -160,7 +147,6 @@ def signup():
 								  password= form.password.data))
 		    # add user
 			dbsession.commit()
->>>>>>> hunting
 
 			flash("Registration almost done. Login to complete.")
 		   	#user must login with new email/password
@@ -183,7 +169,6 @@ def welcome():
 	return render_template("welcome.html",
 		header = 'welcome'
 		)
-
 
 ################ end managing users on website ###############
 

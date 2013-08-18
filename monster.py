@@ -78,6 +78,7 @@ def login():
             login_user(user)
             session['email']=user.email
             session['user_id']=user.id
+            session['username']=user.username
             flash("Welcome")
         else:
             flash("Invalid login")
@@ -105,7 +106,7 @@ def home():
 	# send to _login_ if you are a returning user
 	# send to _sign up_ for new users
 	if 'email' not in session:
-		return redirect(url_for('signin'))
+		return redirect(url_for('signup'))
 
 	user = User.query.filter_by(email=session['email']).first()
 
@@ -124,8 +125,7 @@ def home():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-
-	form = SignupForm()
+	form= SignupForm()
 
 	if form.validate_on_submit():
 	# check if email already exists

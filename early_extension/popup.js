@@ -23,15 +23,15 @@ $("#swap_btn").click(function() {
 $("#get_btn").click(function() {
 	alert('improved get button clicked! sweet')
 	var elements = $("#swap_table tr.cookierow_selected td.key")
+	alert(elements[1]);
 	var selectedCookies = []
 	alert('past the arrays')
 	elements.each(function(){
 		selectedCookies.push($(this).html())
 		if (selectedCookies.length==elements.length) {
 			setSelectedCookiesFromLocal(selectedCookies);
+			alert('in the IF loop, line 32');
 		}
 	})
-	alert('did the loops, on to the functions.')
+	alert('did the loops, on to the functions.');
 });
-
-

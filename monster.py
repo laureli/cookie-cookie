@@ -124,7 +124,7 @@ def home():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-	form = SignupForm
+	form = SignupForm()
 
 	if request.method=='POST':
 		if form.validate()==False:
@@ -243,7 +243,7 @@ def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
-@app.route('/view_cookies')
+@app.route('/view_cookies', methods=['GET', 'POST'])
 def cookie_view():
 	return render_template('aaaaaaa.html')
 

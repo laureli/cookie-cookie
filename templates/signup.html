@@ -3,30 +3,29 @@
 {% block content %}
   <h2>Sign up</h2>
  
-	{% for message in form.username.errors %}
-		<div class="flash">{{ message }}</div>
-	{% endfor %}
-	   	   
-	{% for message in form.email.errors %}
-		<div class="flash">{{ message }}</div>
-	{% endfor %}
-	   
-	{% for message in form.password.errors %}
-		<div class="flash">{{ message }}</div>
-	{% endfor %}
-
-	<form action="{{ url_for('signup') }}" method=POST>
-
-		{{ form.username.label }}
-		{{ form.username }}
-
-		{{ form.email.label }}
-		{{ form.email }}
-
-		{{ form.password.label }}
-		{{ form.password }}
-
-		{{ form.submit }}
-
-	</form>
+	<div class="New_User_Page">
+		<h1> Fill out the below sections </h1> <br /> 
+		<h2 id="sign_in">Your Information</h2>
+			<form action="/signup" method="POST" name= "new_user">
+			{{form.hidden_tag()}}
+ 
+			<!--     # include this every time you do a form -->
+			    {% from "_formhelper.html" import render_field %}          
+			    <form meth=post action="/signup">
+ 
+			    <!-- Email and Password-->
+			   	<div class="inputs"> Username:
+					{{render_field(form.username)}} </div>
+			   	<div class="inputs"> Email:
+					{{render_field(form.email)}} </div>
+				<div class="inputs"> Password:<br>
+					{{render_field(form.password)}}  </div>
+			  
+			  	<div class="inputs"> Confirm password:<br>
+					{{render_field(form.confirm)}}  </div>
+				<p> <input type="submit" value="SUBMIT"></p>
+			  	
+				</form>
+ 
+		</div>
 {% endblock %}

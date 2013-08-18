@@ -32,7 +32,6 @@ $("#get_btn").click(function() {
 		}
 	})
 	alert('did the loops, on to the functions.')
-
 });
 
 

@@ -9,12 +9,12 @@ from sqlalchemy.orm import relationship, backref
 
 
 engine = create_engine("postgresql://mixerapp:mixerapp@localhost:5432/mixer", echo=False)
-session = scoped_session(sessionmaker(bind=engine,
+dbsession = scoped_session(sessionmaker(bind=engine,
                                 autocommit=False,
                                 autoflush=False))
 
 Base = declarative_base()
-Base.query = session.query_property()
+Base.query = dbsession.query_property()
 
 class User(Base):
 	__tablename__="users"
@@ -41,7 +41,7 @@ class User(Base):
 class Cookie(Base):
 	__tablename__="cookies"
 	id = Column(Integer, primary_key=True)
-	user_id = Column(Integer)
+	user_id = Column(Integer, ForeignKey(User.id))
 	name = Column(String(100)) 
 	value = Column(String(2000))
 	domain = Column(String(254))
@@ -50,9 +50,15 @@ class Cookie(Base):
 	http = Column(Boolean())
 	secure = Column(Boolean())
 
+	@property
+	def json(self):
+		json_dict = self.__dict__
+		json_dict['_sa_instance_state']= None
+		return json_dict
 
 	def add_cookie_from_browser(self, c, user): # class instantiated @ monster.py
 	  # include IF statements for data validation here
+
 	  	self.user_id = user.get_id()
 		self.name = c['name']
 		self.value = c['value']
@@ -61,3 +67,5 @@ class Cookie(Base):
 		self.http = c['httpOnly']
 		self.secure = c['secure']
 
+		# self.user_id = user.get_id()
+			# the above line breaks things when login is not implemented.

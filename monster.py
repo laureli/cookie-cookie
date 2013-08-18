@@ -1,14 +1,17 @@
 import os
 import json
-from flask import Flask, render_template, send_from_directory, request, redirect, jsonify, g, flash, url_for, abort
+
+from flask import Flask, render_template, send_from_directory, request, redirect, jsonify, g, \
+session, flash, url_for, abort
+
 from flask.ext.login import LoginManager, login_user, logout_user, current_user, login_required
 from geventwebsocket.handler import WebSocketHandler
 from gevent.pywsgi import WSGIServer
 
-from model import Cookie, User, session
-from forms import LoginForm
+from model import Cookie, User, dbsession
+from forms import LoginForm, SignupForm
 
-# DB config information
+# DB config information  ## postgres address: "postgresql://mixerapp:mixerapp@localhost:5432/mixer"
 DATABASE = '/tmp/mixerapp.db' 
 
 ############## should i be using this one?
@@ -25,6 +28,7 @@ PASSWORD = 'default'
 # application
 app = Flask(__name__)
 app.config.from_object(__name__)
+app.secret_key= SECRET_KEY
 
 ############### start websocket settings ###############
 
@@ -53,7 +57,7 @@ lm.login_view = 'login'
 
 @lm.user_loader
 def load_user(id):
-    return session.query(User).get(int(id))
+    return dbsession.query(User).get(int(id))
 
 @app.before_request
 def before_request():
@@ -74,41 +78,55 @@ def login():
 
     form = LoginForm()  
 
-    if form.validate_on_submit():
-        user= session.query(User).filter_by(email=form.email.data, password=form.password.data).first()
+        user= dbsession.query(User).filter_by(email=form.email.data, password=form.password.data).first()
     
         if user is not None:
             login_user(user)
-            flash('Welcome')
+            session['email']=user.email
+            session['user_id']=user.id
+            session['username']=user.username
+            flash("Welcome")
         else:
             flash('Invalid login')
 
         return redirect(url_for('home'))
-        
+
     return render_template('login.html',
-                            title='Sign In',
+                            header='Sign In',
                             form=form)
 
 
 @app.route('/logout')
 @login_required
 def logout():
-    session.pop('email', None)
-# REDIRECT BACK TO THE SPLASH PAGE
-    return render_template('/index')
+    logout_user()
+# use ln 92 instead of 90 to get more control over login process
+    # session.pop('email', None) 
+    return redirect('/')
 
 
 @app.route('/home', methods=['GET', 'POST']) # index!
+@login_required
 def home():
-	# splash page for not-logged in users arriving not from extension
+	# splash page for logged in users
 	# send to _login_ if you are a returning user
 	# send to _sign up_ for new users
-	return render_template('home.html',
-		title='home')
+	if 'email' not in session:
+		return redirect(url_for('signup'))
+
+	user = User.query.filter_by(email=session['email']).first()
+
+	if user is None:
+		return redirect(url_for('signin'))
+	else:
+		return render_template('home.html', 
+								title='home')
 
 ############### end login / logout ###############
 
+############### start managing users on website ###############
 
+<<<<<<< HEAD
 ############### start managing users on website ###############
 
 @app.route('/')
@@ -121,40 +139,57 @@ def index():
 	# send to _login_ if you are a returning user
 	# send to _sign up_ for new users
 	return render_template('index.html')
+=======
 
-# this does math on the index
-@app.route('/_add_numbers')
-def add_numbers():
-    a = request.args.get('a', 0, type=int)
-    b = request.args.get('b', 0, type=int)
-    c = request.args.get('c', 0, type=int)
-    return jsonify(result=a * b + c)
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+	form= SignupForm()
 
+	if form.validate_on_submit():
+	# check if email already exists
+		email_exists = dbsession.query(User).filter_by(email = form.email.data).first()
+	
+		if email_exists != None:
+			flash('Email already exists')
+			return render_template('signup.html', 
+				                    header='signup', 
+				                    form=form)
+		else:
+			user = dbsession.add(User(username= form.username.data,
+								  email= form.email.data,
+								  password= form.password.data))
+		    # add user
+			dbsession.commit()
+>>>>>>> hunting
 
-@app.route('/signup')
-def sign_up():
-	return "new user, put your information here in html"
-	# new user sign up here
+			flash("Registration almost done. Login to complete.")
+		   	#user must login with new email/password
+			return redirect(url_for('login'))
 
+	return render_template('signup.html',
+							header='signup',
+							form=form)
 
-
-@app.route('/welcome', methods=['GET', 'POST'])
-def welcome():
-	return render_template("welcome.html",
-		header = 'welcome'
-		)
 
 @app.route('/stats')
 def stats():
 	return render_template('stats.html',
 		header = 'stats')
 
-################ end managing users on website ###############
 
+@app.route('/welcome', methods=['GET', 'POST'])
+@login_required
+def welcome():
+	return render_template("welcome.html",
+		header = 'welcome'
+		)
+
+
+################ end managing users on website ###############
 
 ################ start managing extension ###############
 
-# LOAD_COOKIES IS ONLY GETTING USED TO LOAD COOKIES INTO THE DATABASE RIGHT NOW
+# LOAD_COOKIES IS GETTING USED TO LOAD COOKIES INTO THE DATABASE
 ### LOAD_COOKIES can parse upload when the conditional statement is running.
 #######  validate data in models.py	
 
@@ -170,55 +205,52 @@ def load_cookies():
 
 		# if values[0] == 'www.'+ request.form['requested_domain']:
 		cookie_object = Cookie()
-		cookie_object.add_cookie_from_browser(c, current_user)
-	        session.add(cookie_object)	
-		session.commit()
+		cookie_object.add_cookie_from_browser(c)
+		cookie_object.user_id=session['user_id']
+		dbsession.add(cookie_object)
+		dbsession.commit()
 
-	# return jsonify(content)
-	# return redirect("/show_cookies.html")
-	return 'confirmed, cookies loaded.'
-# LOAD COOKIES IS USED TO LOAD COOKIES INTO THE DATABASE RIGHT NOW
+	return "confirmed, cookies loaded."
 
 
+# SHOW_COOKIES GETS COOKIES FROM DB AND DISPLAYS @ EXTENSION
 
-@app.route('/show_cookies', methods=['GET'])
+@app.route('/show_cookies', methods=['GET', 'POST'])
 def show_cookies():
-	# show cookies that are called above.
 	data = Cookie.query.all()
-	dbCookies = [d.__dict__ for d in data]
+	dbCookies = [d.json for d in data]
+	return jsonify(dbCookies=dbCookies)
 
-	return json.dumps(jsonify(dbCookies=dbCookies))
 
+# REMEMBER:  SET_BROWSER_COOKIE -- url and domain need to be THE SAME PLACE !!!
 
+@app.route('/set_browser_cookie')
+def set_browser_cookie():
+	return jsonify({"cookies": [
+		{"url": "http://www.snaps.com", 
+		"name": "testCookie3", 
+		"value": "sample-value-here22",
+		"domain": "snaps.com"}
+		]
+	})
 
 
 ################ stop managing extension ###############
 
+################ start general navigation ###############
 
 
-
+@app.route('/') # index!
+def index_redir():
+	return render_template('index.html')
 
 
 @app.route('/search')
 def search_cookies():
-	return render_template('search.html',
+	return render_template("search.html",
 		header = 'search results'
 		)
-	# return '
-
-
-@app.route('/set_browser_cookie')
-def set_browser_cookie():
-
-# REMEMBER: url and domain need to be THE SAME PLACE !!!
-
-	return jsonify({'cookies': [
-		{'url': 'http://www.snaps.com', 
-		'name': 'testCookie3', 
-		'value': 'sample-value-here22',
-		'domain': 'snaps.com'}
-		]
-	})
+	# return ""
 
 
 @app.route('/call_cookies')
@@ -227,22 +259,20 @@ def call_cookies():
 	return render_template('call_cookies.html')
 
 
-
+################ stop general navigation ###############
 
 
 ################ start development & test section ###############
 
 
-# @app.route('/favicon.ico')
-# def favicon():
-#     return send_from_directory(os.path.join(app.root_path, 'static'),
-#                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
-
-# @app.route('/view_cookies', methods=['POST'], ['GET'])
-# def cookie_view():
-# 	return "show me the cookies on your computer, returning user!"
-	# existing user, see cookies there
+@app.route('/view_cookies', methods=['GET', 'POST'])
+def cookie_view():
+	return render_template('aaaaaaa.html')
 
 
 ################ stop development and test section ###############
@@ -255,8 +285,13 @@ def page_not_found(error):
     return render_template('page_not_found.html', 
     	header='404 error'), 404
 
+# @app.errorhandler(404)
+# def page_not_found(error):
+#     return render_template('page_not_found.html', 
+#     	header='404 error'), 404
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
 	# http_server = WSGIServer(('',5000), app, handler_class=WebSocketHandler)
 	# http_server.serve_forever()
 	app.run(debug=True)

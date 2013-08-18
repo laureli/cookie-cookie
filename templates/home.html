@@ -2,9 +2,11 @@
 
 {% block content %}
 
+    <div>This is {{ session['username'] }}'s profile page</div></br>
+    
     <div id="user_summary">
 
-        welcome to your home page, USER NAME.</br>
+        Welcome to your home page, {{ session.username }}.</br>
         here i can show your history of swaps.</br>
         or i can use jinja if statement and a DB query to tell you to start swapping.</br>
     </div>
@@ -15,7 +17,7 @@
 
         <form action="/search" method="GET" name= "home">
 
-        <p>enter a domain please:</p></br>
+        <p>checkout cookies from a specific domain:</p></br>
             <input type=text size=15 name=domain id="relevant_domain">
             </input>
             
@@ -24,6 +26,9 @@
         </form>
     </div>
 
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/library.js"></script>
+
         <script type="text/javascript">
             console.log('really guys?');
             $("#sbtn").click(function() {
@@ -31,6 +36,4 @@
         });
         </script>
 
-    <script src="static/js/jquery.min.js"></script>
-    <script src="/static/js/library.js"></script>
 {% endblock %}

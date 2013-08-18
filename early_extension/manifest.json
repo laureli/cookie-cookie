@@ -1,32 +1,34 @@
 /* extensions for fun */
 
 {
-	"name": "A cookiemxr: starts a cookie swap when clicked",
+	"name": "A cookiehuntr: starts a cookie swap when clicked",
 	"version": "0.0.1",
 	"background":{
 		"scripts": [
+			"popup.js",
 			"jquery.min.js",
-			"background.js",
-			"ext_backbone.js"
+			"ext_backbone.js",
+			"background.js"
 		],
 		"pages": [
+			// "manager.html",
 			"background.html",
 			"fuzzy.html"
 		]
 	},
 	"permissions": [
 		"cookies",
+		"storage",
 		"<all_urls>",
 	    "http://localhost/*",
 	    "tabs",
 	    "http://*/*"
 		],
 	"browser_action":{
-		"name":"clicking initiates the cookie swap"
-			// "default_popup":"popup.html"  
-			// if there is a default popup then it takes priority?
-				// use the popup as a navigation pane later.
+		"name":"clicking initiates the cookie swap", 
+		"default_popup":"popup.html"  
 	},
+	
 	"manifest_version":2
 
 }

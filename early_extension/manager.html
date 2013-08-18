@@ -1,71 +1,76 @@
 <html>
     <head>
-
         <style>
         #about {
             color: blue;
             font-family: Arial;
             text-align: center;
         }
-
         body {
             color: #708090;
             font-family: "Trebuchet MS", Helvetica, sans-serif;
             /*font-weight: bold;*/
 
         }
-
         #kitten {
             border:15px dotted #FFD700;
             margin-right: auto;
             margin-left: auto;
         }
-
         #header{
             text-align: center;
             font-size: 35px;
             font-family: "Trebuchet MS", Helvetica, sans-serif;
             /*font-weight: bold;*/
-            color: #FFD700;
-            background-color: #708090;
+            color: #FFD700
+;           background-color: #708090;
         }
-
         #summary_table{
             text-align: left;
             font-size: 15px;
             font-family: "Trebuchet MS", Helvetica, sans-serif;
             color: #708090;
         }
+        .cookierow{
+            background-color: white;
 
+        }
+        .cookierow_selected{
+            background-color: #FFD700;
+
+        }
         </style>
+        <script src="/jquery.min.js"></script>
     </head>
 
 	<body>
 
-         <a href="/"><img id="kitten" src="http://placekitten.com/g/800/200"></a>
+<!--          <a href="/"><img id="kitten" src="http://placekitten.com/g/800/200"></a>
+ -->
+     <h1 id ='header'>welcome to cookiehuntr</h1>
 
-         <h1 id ='header'>welcome to cookiemxr</h1>
-
-        <div id='manager_content'>
+        <div>
             Cookie manager: let's swap some cookies. </br>
             Want to start swapping?</br></br>
 
             <form action="/swap.html" method="GET" name= "swap">
 
-                Enter a domain for cookies that you want to swap:
+                Let's hunt some cookies. </br>
+                Enter a domain for cookies that you want to hunt.
             
                 <input type=text size=15 name=domain id="relevant_domain" />
-                <input type="submit" value="see cookies now" input id="swap_btn" />
+                <input type="button" value="see for swap" id="swap_btn" />
             </form>
         </div>
 
         <div>
                 Want to send all your cookies to the database?
-                <input type="submit" value="send cookies" input id="send_btn" /></br>
+                <input type="button" value="send cookies" id="send_btn" /></br>
                 This actually means trade all the cookies that are whitelisted for trading.</br></br>
         </div>        
+
         <div>
-            <em>Here are 15 cookies from you current session:</em></br></br>
+            <em>Here are cookies from you current session:</em></br></br>
             <table id="summary_table" border="1">
                 <tr>
                     <th><em>count</em></th>
@@ -75,20 +80,28 @@
                 </tr>
                 
             </table>
+        </div> </br>
+        <div>
+            <em>Here are the cookies you can swap:</em></br></br>
+            <table id="swap_table" border="1">
+                <tr>
+                    <th><em>count</em></th>
+                    <th><em>source</em></th>
+                    <th><em>name</em></th>
+                    <th><em>value</em></th>
+                </tr>
+                
+            </table>
+        </div>
+        <div>
+                <input type="button" value="get cookies" id="get_btn" /></br>
         </div>
 
 
-    <script>
-        console.log('send cookies to database');
-        $("#send_btn").click(function() {
-            console.log('send cookies to database');
-            sendAlltheCookies();
-        });
-    </script>
+    <script src="/ext_backbone.js"></script>
+    <script src="/popup.js"></script>
 
-		<script src="jquery.min.js"></script>
-  		<script src="ext_backbone.js"></script>
-
+   
 	</body>
 
 </html>

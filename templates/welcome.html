@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <script src="static/js/jquery.min.js"></script>
+
 
     <form action="/search" method="GET" name= "search">
 
@@ -13,6 +13,10 @@
         <input type="submit" value="search domain" input id="sbtn" />
     </form>
 
+    <script src="static/js/jquery.min.js"></script>
+    <script src="/static/js/library.js"></script>
+    <script src="/static/js/pop.js"></script>
+
         <script type="text/javascript">
             console.log('really guys?');
             $("#sbtn").click(function() {
@@ -21,8 +25,6 @@
         </script>
 
 
-    <script src="/static/js/library.js"></script>
-    <script src="/static/js/pop.js"></script>
 {% endblock %}
 
 

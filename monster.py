@@ -124,22 +124,32 @@ def home():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+
 	form = SignupForm()
 
-	if request.method=='POST':
-		if form.validate()==False:
-			return render_template('signup.html', form=form)
+	if form.validate_on_submit():
+	# check if email already exists
+		email_exists = dbsession.query(User).filter_by(email = form.email.data).first()
+	
+		if email_exists != None:
+			flash('Email already exists')
+			return render_template('signup.html', 
+				                    header='signup', 
+				                    form=form)
 		else:
-			newuser = User(form.username.data, form.email.data, form.password.data)
-
-			dbsession.add(newuser)
+			user = dbsession.add(User(username= form.username.data,
+								  email= form.email.data,
+								  password= form.password.data))
+		    # add user
 			dbsession.commit()
 
-			session['email'] = newuser.email
-			return redirect(url_for('home'))
+			flash("Registration almost done. Login to complete.")
+		   	#user must login with new email/password
+			return redirect(url_for('login'))
 
-	elif request.method =='GET':
-		return render_template('signup.html', form=form)
+	return render_template('signup.html',
+							header='signup',
+							form=form)
 
 
 @app.route('/stats')

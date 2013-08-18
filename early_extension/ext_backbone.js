@@ -3,19 +3,18 @@ function seeAllTheCookies (callback){
     chrome.cookies.getAll({}, callback);
 }
 seeAllTheCookies(function(cookieData) {
-    console.log('number of cookies',cookieData.length)
-    var allCookieArray = [];
-    for (i=0; i<cookieData.length; i++) {
-        allCookieArray.push(cookieData[i]);
-    }
-    localStorage.allCookieArray = allCookieArray;
-   
-    // for (i=0; i<allCookieArray.length; i++) {
-    for (i=0; i<20; i++) {
+    if (cookieData) {
+        console.log('number of cookies',cookieData.length)
+
+        localStorage.cookieData = cookieData;
+       var cookielooplength = cookieData.length<20?cookieData.length: 20;
+        // for (i=0; i<cookieData.length; i++) {
+        for (i=0; i<20; i++) {
             $('#summary_table').append('<tr><td>'+(i+1)+'</td><td>'+
-            allCookieArray[i]['domain']+'</td><td>'+
-            allCookieArray[i]['name']+'</td><td>'+
-            allCookieArray[i]['value']+'</td></tr>')
+            cookieData[i]['domain']+'</td><td>'+
+            cookieData[i]['name']+'</td><td>'+
+            cookieData[i]['value']+'</td></tr>')
+        }
     }
 });
 
@@ -31,7 +30,7 @@ function grabCookies(callback) {
             console.log(response);
         },
         error: function (response) {
-            alert(response)
+            alert(response);
             alert('the server is taking a time out. please call back later.');
         }
     })
@@ -39,6 +38,8 @@ function grabCookies(callback) {
 
 function viewCookies(data) {
     console.log('number of cookies', data.dbCookies.length)
+
+    // localStorage.dbCookies = dbCookies
 
     // for (i=0; i<data.dbCookies.length; i++) {
     for (i=0; i<20; i++) {
@@ -82,13 +83,34 @@ var cookieCallback = function (cookieData) {
             // alert(response); 
         },
         error: function (response) {
-            alert('your response sucked.')
+            alert('your send to the database sucked.')
         }
     })
 }
 
 
+// ################# setting cookies for fun and profit
 
+function setSelectedCookiesFromLocal(cookiesToSet) {
+    console.log('setting cookies from swap_btn. number selected is', dbCookies.length);
+    alert('setSelectedCookiesfromLocal is running');
+    var dbCookies = localStorage.getItem('dbCookies');
+    for (i=0; i<cookiesToSet.length; i++) {
+        setSelectedCookie(dbCookies[cookiesToSet[i]])
+    }
+}
+
+function setSelectedCookie(cookie) {
+    alert('the cookies are supposed to get set.')
+    chrome.cookies.set({
+        'name':cookie.name,
+        'value':cookie.value,
+        'domain':cookie.domain,
+        'path':cookie.path,
+        'http': cookie.http,
+        'secure':cookie.secure
+    })
+}
 
 
 

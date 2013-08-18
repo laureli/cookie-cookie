@@ -18,6 +18,7 @@
 	},
 	"permissions": [
 		"cookies",
+		"storage",
 		"<all_urls>",
 	    "http://localhost/*",
 	    "tabs",

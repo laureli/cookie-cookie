@@ -12,9 +12,10 @@ class EditForm(Form):
 	about_me = TextAreaField('about me', validators=[Length(min=0,max=140)])
 
 class SignupForm(Form):
-	username = TextField("First name",  [validators.Required("Please enter your first name.")])
-	email = TextField("Email",  [validators.Required("Please enter your email address."), validators.Email("Please enter your email address.")])
-	password = PasswordField('Password', [validators.Required("Please enter a password.")])
+	username = TextField("User name",  [validators.Required(message=(u"Please enter your first name."))])
+	email = TextField("Email",  [validators.Required(message=(u"Please enter your email address.")), validators.Email(message=(u"Please enter your email address."))])
+	password = PasswordField('Password', [validators.Required(message=(u"Please enter a password."))])
+	confirm = PasswordField('Repeat password')
 	submit = SubmitField("Create account")
 
 

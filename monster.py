@@ -179,23 +179,62 @@ def welcome():
 #######  validate data in models.py	
 
 @app.route('/load_cookies', methods=['POST', 'GET'])
+# def load_cookies():
+# 	content = request.get_json()
+# 		# content is a DICTIONARY!
+
+# 	for c in content['cookies']:
+# 		keys = c.keys()
+# 		values = c.values()
+# 		# keys and values are LISTS
+
+# 		# if values[0] == 'www.'+ request.form['requested_domain']:
+# 		cookie_object = Cookie()
+# 		cookie_object.add_cookie_from_browser(c, current_user)
+# 		cookie_object.user_id=session['user_id']
+# 		dbsession.add(cookie_object)
+# 		dbsession.commit()
+
+# 	return "confirmed, cookies loaded."
+
+#  practice below to work on implementing white list
+
+@app.route('/load_cookies', methods=['POST', 'GET'])
 def load_cookies():
 	content = request.get_json()
-		# content is a DICTIONARY!
+	# print 'content 2 is', content['cookies'][1]
+
+	w_list_domains=open("static/whitelist-domains.txt")
+
+	domain_array= []
+	i = 0
+
+	for line in w_list_domains:
+		domain_array.append(line.strip()) 
+	w_list_domains.close()
+	print domain_array
 
 	for c in content['cookies']:
-		keys = c.keys()
-		values = c.values()
-		# keys and values are LISTS
+		if ".".join(c['domain'].split(".")[-2::]) in domain_array:
+			print 'found whitelisted cookie'
+			cookie_object = Cookie()
+			cookie_object.add_cookie_from_browser(c, current_user)
+			cookie_object.user_id=current_user.id
+			dbsession.add(cookie_object)
+			i+=1
 
-		# if values[0] == 'www.'+ request.form['requested_domain']:
-		cookie_object = Cookie()
-		cookie_object.add_cookie_from_browser(c, current_user)
-		cookie_object.user_id=session['user_id']
-		dbsession.add(cookie_object)
-		dbsession.commit()
+	dbsession.commit()
+	return 'cookies added were this number', i
 
-	return "confirmed, cookies loaded."
+
+
+
+
+
+
+
+
+
 
 
 # SHOW_COOKIES GETS COOKIES FROM DB AND DISPLAYS @ EXTENSION

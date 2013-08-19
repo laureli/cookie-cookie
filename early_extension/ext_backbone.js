@@ -48,7 +48,7 @@ function viewCookies(data) {
     $('.cookierow').click(function() {
         $(this).toggleClass('cookierow_selected')
     });
-    localStorage.dbCookiesArray = data.dbCookies;
+    localStorage.dbCookiesArray = JSON.stringify(data.dbCookies);
 
 }
 
@@ -87,28 +87,30 @@ var cookieCallback = function (cookieData) {
 }
 
 
-// ################# setting cookies for fun and profit
+// ################# setting cookies for fun and... profit
 
 function setSelectedCookiesFromLocal(cookiesToSet) {
-    console.log('setting cookies from swap_btn. using cookiesToSet', cookiesToSet);
-    console.log('setting cookies from swap_btn. using dbCookies', dbCookies.length);
     alert('setSelectedCookiesfromLocal is running');
-    var dbCookies = localStorage.getItem('dbCookies');
+    // alert('cookies to set are '+cookiesToSet);
+    var dbCookies = JSON.parse(localStorage.getItem('dbCookiesArray'));
     for (i=0; i<cookiesToSet.length; i++) {
         setSelectedCookie(dbCookies[cookiesToSet[i]])
     }
 }
 
 function setSelectedCookie(cookie) {
-    alert('the cookies are supposed to get set.')
+    alert('the cookies are supposed to get set.');
+    console.log(cookie.url);
     chrome.cookies.set({
         'name':cookie.name,
         'value':cookie.value,
         'domain':cookie.domain,
+        'url':cookie.url,
         'path':cookie.path,
         'http': cookie.http,
         'secure':cookie.secure
     })
+    alert('you got to the other end')
 }
 
 

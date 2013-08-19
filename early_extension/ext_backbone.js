@@ -93,6 +93,11 @@ function setSelectedCookiesFromLocal(cookiesToSet) {
     alert('setSelectedCookiesfromLocal is running');
     // alert('cookies to set are '+cookiesToSet);
     var dbCookies = JSON.parse(localStorage.getItem('dbCookiesArray'));
+
+for (i=0; i<dbCookies.length; i++) {
+    $.extend(dbCookies[i], {url:'http://'+dbCookies[i].domain})
+}
+
     for (i=0; i<cookiesToSet.length; i++) {
         setSelectedCookie(dbCookies[cookiesToSet[i]])
     }
@@ -105,10 +110,7 @@ function setSelectedCookie(cookie) {
         'name':cookie.name,
         'value':cookie.value,
         'domain':cookie.domain,
-        'url':cookie.url,
-        'path':cookie.path,
-        'http': cookie.http,
-        'secure':cookie.secure
+        'url':cookie.url
     })
     alert('you got to the other end')
 }

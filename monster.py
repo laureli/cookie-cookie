@@ -190,7 +190,7 @@ def load_cookies():
 
 		# if values[0] == 'www.'+ request.form['requested_domain']:
 		cookie_object = Cookie()
-		cookie_object.add_cookie_from_browser(c)
+		cookie_object.add_cookie_from_browser(c, current_user)
 		cookie_object.user_id=session['user_id']
 		dbsession.add(cookie_object)
 		dbsession.commit()

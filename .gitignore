@@ -59,3 +59,4 @@ A-practice.js
 static/ext_backbone.js
 static/popup.js
 templates/aaaaaaa.html
+/static/whitelist-*

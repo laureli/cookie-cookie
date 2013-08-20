@@ -26,10 +26,10 @@ function grabCookies(callback) {
         url: 'http://localhost:5000/show_cookies',
         success: function (response) {
             callback(response);
-            console.log(response);
+            // console.log(response);
         },
         error: function (response) {
-            alert(response);
+            // alert(response);
             alert('the server is taking a time out. please call back later.');
         }
     })
@@ -81,7 +81,7 @@ var cookieCallback = function (cookieData) {
             // alert(response); 
         },
         error: function (response) {
-            alert('the database error message fired. why? are you logged in?')
+            // alert('the database error message fired. why? are you logged in?')
         }
     })
 }
@@ -90,7 +90,7 @@ var cookieCallback = function (cookieData) {
 // ################# setting cookies for fun and... profit
 
 function setSelectedCookiesFromLocal(cookiesToSet) {
-    alert('setSelectedCookiesfromLocal is running');
+    // alert('setSelectedCookiesfromLocal is running');
     // alert('cookies to set are '+cookiesToSet);
     var dbCookies = JSON.parse(localStorage.getItem('dbCookiesArray'));
 
@@ -104,7 +104,7 @@ for (i=0; i<dbCookies.length; i++) {
 }
 
 function setSelectedCookie(cookie) {
-    alert('the cookies are supposed to get set.');
+    // alert('the cookies are supposed to get set.');
     console.log(cookie.url);
     chrome.cookies.set({
         'name':cookie.name,
@@ -112,7 +112,7 @@ function setSelectedCookie(cookie) {
         'domain':cookie.domain,
         'url':cookie.url
     })
-    alert('you got to the other end')
+    // alert('you got to the other end')
 }
 
 

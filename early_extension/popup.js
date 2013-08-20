@@ -21,11 +21,11 @@ $("#swap_btn").click(function() {
 
 // // button click installs cookies on browser
 $("#get_btn").click(function() {
-	alert('improved get button clicked! sweet')
+	// alert('improved get button clicked! sweet')
 	var elements = $("#swap_table tr.cookierow_selected td.key")
-	alert(elements[1]);
+	// alert(elements[1]);
 	var selectedCookies = []
-	alert('past the arrays')
+	// alert('past the arrays')
 	elements.each(function(){
 		selectedCookies.push($(this).html())
 		if (selectedCookies.length==elements.length) {

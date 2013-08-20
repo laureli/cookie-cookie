@@ -2,20 +2,19 @@
 
 {% block content %}
 
-    <div>This is {{ session['username'] }}'s profile page</div></br>
+    <div>This is <b>{{ session['username'] }}'s</b> profile page</div></br>
     
     <div id="user_summary">
 
-        Welcome to your home page, {{ session.username }}.</br>
-        here i can show your history of swaps.</br>
-        or i can use jinja if statement and a DB query to tell you to start swapping.</br>
+        Welcome to your home page, {{ session.username }}.</br></br>
+        Now that you've logged in, your sessions are synchronized and you can start managing cookies with your extension.</br>
     </div>
 
     <div id= "">
 
     </div>
 
-        <form action="/search" method="GET" name= "home">
+<!--         <form action="/search" method="GET" name= "home">
 
         <p>checkout cookies from a specific domain:</p></br>
             <input type=text size=15 name=domain id="relevant_domain">
@@ -24,7 +23,7 @@
             <span id=result> </span> </br>
             <input id="sbtn" type="submit" /> 
         </form>
-    </div>
+ -->    </div>
 
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/library.js"></script>

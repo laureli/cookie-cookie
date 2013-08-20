@@ -8,8 +8,8 @@ u[o]&&(delete u[o],c?delete n[l]:typeof n.removeAttribute!==i?n.removeAttribute(
 
 // send cookies to the database
 $("#send_btn").click(function() {
-   console.log('send cookies to database');
-   sendAlltheCookies(cookieCallback);
+	alert('thanks for submitting cookies to the database.')
+    sendAlltheCookies(cookieCallback);
 });
 
 
@@ -30,8 +30,7 @@ $("#get_btn").click(function() {
 		selectedCookies.push($(this).html())
 		if (selectedCookies.length==elements.length) {
 			setSelectedCookiesFromLocal(selectedCookies);
-			alert('in the IF loop, line 32');
 		}
 	})
-	alert('did the loops, on to the functions.');
+	alert('The selected cookies were set on your browser.');
 });

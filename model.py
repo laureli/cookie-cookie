@@ -3,10 +3,9 @@ from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String, Boolean
 from sqlalchemy import DateTime
 from sqlalchemy.orm import sessionmaker, scoped_session
-
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
-
+import datetime
 
 engine = create_engine("postgresql://mixerapp:mixerapp@localhost:5432/mixer", echo=False)
 dbsession = scoped_session(sessionmaker(bind=engine,
@@ -49,6 +48,7 @@ class Cookie(Base):
 	expiration = Column(String(254))
 	http = Column(Boolean())
 	secure = Column(Boolean())
+	submission_datetime = Column(DateTime(), default=datetime.datetime.utcnow())
 
 	@property
 	def json(self):
@@ -66,6 +66,3 @@ class Cookie(Base):
 		self.path = c['path']
 		self.http = c['httpOnly']
 		self.secure = c['secure']
-
-		# self.user_id = user.get_id()
-			# the above line breaks things when login is not implemented.
